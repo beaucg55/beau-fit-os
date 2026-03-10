@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beau Fit OS</title>
+
+<link rel="manifest" href="manifest.webmanifest">
+
+<meta name="theme-color" content="#0f172a"/>
+
+<style>
+
+body{
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto;
+background:#0f172a;
+color:white;
+}
+
+header{
+padding:16px;
+font-size:20px;
+font-weight:bold;
+text-align:center;
+background:#020617;
+}
+
+.container{
+padding:16px;
+}
+
+.section{
+margin-bottom:24px;
+}
+
+.card{
+background:#1e293b;
+border-radius:12px;
+padding:16px;
+margin-bottom:12px;
+}
+
+button{
+background:#22c55e;
+border:none;
+padding:12px;
+border-radius:10px;
+font-size:16px;
+color:white;
+width:100%;
+}
+
+button.secondary{
+background:#334155;
+}
+
+.exercise{
+padding:10px;
+border-bottom:1px solid #334155;
+}
+
+.exercise:last-child{
+border:none;
+}
+
+.timer{
+font-size:24px;
+text-align:center;
+margin-top:10px;
+}
+
+.swipe{
+overflow-x:auto;
+display:flex;
+gap:12px;
+}
+
+.swipe .card{
+min-width:260px;
+}
+
+.muscle{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:6px;
+}
+
+.muscle div{
+background:#1e293b;
+padding:8px;
+text-align:center;
+border-radius:6px;
+font-size:12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+Beau Fit OS
+</header>
+
+<div class="container">
+
+<div class="section">
+
+<label>Workout Goal</label>
+
+<select id="goal">
+<option value="strength">Strength</option>
+<option value="cardio">Cardio</option>
+<option value="recovery">Recovery</option>
+<option value="morning">Morning</option>
+</select>
+
+</div>
+
+<div class="section">
+
+<label>Workout Duration</label>
+
+<select id="duration">
+<option value="15">15 minutes</option>
+<option value="30">30 minutes</option>
+<option value="45">45 minutes</option>
+<option value="60">60 minutes</option>
+</select>
+
+</div>
+
+<div class="section">
+
+<button onclick="generateWorkout()">Generate Workout</button>
+
+</div>
+
+<div class="section">
+
+<h3>Workout Options</h3>
+
+<div class="swipe" id="workoutCards"></div>
+
+</div>
+
+<div class="section">
+
+<h3>Muscle Recovery</h3>
+
+<div class="muscle">
+
+<div>Chest</div>
+<div>Back</div>
+<div>Legs</div>
+<div>Shoulders</div>
+<div>Glutes</div>
+<div>Core</div>
+<div>Arms</div>
+<div>Cardio</div>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h3>Rest Timer</h3>
+
+<div class="timer" id="timer">00:00</div>
+
+<button class="secondary" onclick="startTimer(60)">Start 60s</button>
+<button class="secondary" onclick="startTimer(120)">Start 2m</button>
+
+</div>
+
+</div>
+
+<script>
+
+const exercises = {
+
+strength:[
+"Back Squat",
+"Bench Press",
+"Romanian Deadlift",
+"Pull Ups",
+"Barbell Row",
+"Front Squat",
+"Hang Power Clean"
+],
+
+cardio:[
+"Burpees",
+"Mountain Climbers",
+"Dumbbell Thrusters",
+"Jump Squats",
+"Pushups",
+"Row Intervals"
+],
+
+recovery:[
+"Cat Cow",
+"Worlds Greatest Stretch",
+"Deep Squat Hold",
+"Glute Bridge",
+"Dead Hang"
+],
+
+morning:[
+"Bodyweight Squat",
+"Pushups",
+"Dead Bug",
+"Plank",
+"Lunges"
+]
+
+}
+
+function generateWorkout(){
+
+let goal=document.getElementById("goal").value
+let duration=document.getElementById("duration").value
+
+let list=exercises[goal]
+
+let count=Math.max(3,Math.floor(duration/10))
+
+let chosen=[]
+
+while(chosen.length<count){
+
+let ex=list[Math.floor(Math.random()*list.length)]
+
+if(!chosen.includes(ex)) chosen.push(ex)
+
+}
+
+renderWorkout(chosen)
+
+}
+
+function renderWorkout(list){
+
+let container=document.getElementById("workoutCards")
+
+container.innerHTML=""
+
+let card=document.createElement("div")
+
+card.className="card"
+
+let html="<h3>Workout</h3>"
+
+list.forEach(e=>{
+
+html+=`<div class="exercise">${e}</div>`
+
+})
+
+html+=`<button onclick="acceptWorkout()">Start Workout</button>`
+
+card.innerHTML=html
+
+container.appendChild(card)
+
+}
+
+function acceptWorkout(){
+
+alert("Workout started")
+
+}
+
+function startTimer(seconds){
+
+let timer=document.getElementById("timer")
+
+let remaining=seconds
+
+let interval=setInterval(()=>{
+
+remaining--
+
+let m=Math.floor(remaining/60)
+
+let s=remaining%60
+
+timer.innerText=`${m}:${s.toString().padStart(2,"0")}`
+
+if(remaining<=0) clearInterval(interval)
+
+},1000)
+
+}
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register("sw.js")
+
+}
+
+</script>
+
+</body>
+</html>
