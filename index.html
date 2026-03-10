@@ -1,307 +1,833 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Beau Fit OS</title>
-
-<link rel="manifest" href="manifest.webmanifest">
-
-<meta name="theme-color" content="#0f172a"/>
-
-<style>
-
-body{
-margin:0;
-font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto;
-background:#0f172a;
-color:white;
-}
-
-header{
-padding:16px;
-font-size:20px;
-font-weight:bold;
-text-align:center;
-background:#020617;
-}
-
-.container{
-padding:16px;
-}
-
-.section{
-margin-bottom:24px;
-}
-
-.card{
-background:#1e293b;
-border-radius:12px;
-padding:16px;
-margin-bottom:12px;
-}
-
-button{
-background:#22c55e;
-border:none;
-padding:12px;
-border-radius:10px;
-font-size:16px;
-color:white;
-width:100%;
-}
-
-button.secondary{
-background:#334155;
-}
-
-.exercise{
-padding:10px;
-border-bottom:1px solid #334155;
-}
-
-.exercise:last-child{
-border:none;
-}
-
-.timer{
-font-size:24px;
-text-align:center;
-margin-top:10px;
-}
-
-.swipe{
-overflow-x:auto;
-display:flex;
-gap:12px;
-}
-
-.swipe .card{
-min-width:260px;
-}
-
-.muscle{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:6px;
-}
-
-.muscle div{
-background:#1e293b;
-padding:8px;
-text-align:center;
-border-radius:6px;
-font-size:12px;
-}
-
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Beau Fit OS V4</title>
+  <style>
+    :root{
+      --bg:#07111c;--bg2:#0b1a2c;--panel:#10243a;--panel2:#122b44;--line:rgba(255,255,255,.12);
+      --text:#eef4ff;--muted:#9cb2cb;--green:#38d39f;--blue:#5ca3ff;--purple:#9b7cff;--gold:#f6c24a;--red:#ff6b7d;
+      --shadow:0 18px 45px rgba(0,0,0,.35);--radius:24px;--radius2:18px;
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;padding:0;background:linear-gradient(180deg,var(--bg),#030912 75%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    body{min-height:100vh}
+    .app{max-width:560px;margin:0 auto;padding:18px 14px 100px}
+    .glass{background:linear-gradient(180deg,rgba(16,36,58,.96),rgba(10,25,40,.98));border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(10px)}
+    .hero{padding:18px;border-radius:28px;position:relative;overflow:hidden}
+    .hero:before,.hero:after{content:"";position:absolute;border-radius:50%;filter:blur(2px);pointer-events:none}
+    .hero:before{width:220px;height:220px;background:radial-gradient(circle,rgba(92,163,255,.22),transparent 65%);top:-120px;right:-40px}
+    .hero:after{width:160px;height:160px;background:radial-gradient(circle,rgba(56,211,159,.18),transparent 65%);bottom:-90px;left:-30px}
+    h1,h2,h3,h4,p{margin:0}
+    .muted{color:var(--muted)}
+    .toprow{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:12px;font-weight:700}
+    .headline{font-size:30px;letter-spacing:-.04em;margin-top:6px}
+    .subheadline{margin-top:8px;font-size:14px;line-height:1.45;max-width:370px}
+    .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+    .mini{padding:12px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+    .mini .label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+    .mini .value{font-size:24px;font-weight:800;margin-top:6px}
+    .section{margin-top:14px;border-radius:24px;padding:14px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+    .section-title{font-size:18px;font-weight:800;letter-spacing:-.02em}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .field{display:grid;gap:7px}
+    label{font-size:12px;color:var(--muted);font-weight:700}
+    select,input,textarea{width:100%;padding:12px 13px;border-radius:16px;border:1px solid var(--line);background:rgba(3,10,18,.78);color:var(--text);font:inherit}
+    input[type=checkbox]{width:auto}
+    .chip-row,.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+    button{appearance:none;border:none;padding:12px 14px;border-radius:16px;font:inherit;font-weight:800;cursor:pointer;color:var(--text);background:rgba(255,255,255,.06);border:1px solid var(--line)}
+    button.primary{background:linear-gradient(90deg,var(--green),var(--blue));color:#05202b;border:none}
+    button.secondary{background:linear-gradient(90deg,var(--purple),var(--blue));border:none}
+    button.gold{background:linear-gradient(90deg,#f6c24a,#f59e0b);color:#231704;border:none}
+    button.ghost{background:rgba(255,255,255,.04)}
+    button.small{padding:9px 11px;font-size:12px;border-radius:12px}
+    .swipe-wrap{overflow:hidden;border-radius:24px}
+    .swipe-track{display:flex;transition:transform .28s ease;touch-action:pan-y}
+    .workout-card{min-width:100%;padding:14px}
+    .card-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .workout-title{font-size:24px;font-weight:900;letter-spacing:-.03em}
+    .tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .tag{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line);font-size:12px}
+    .coach-note{margin-top:12px;padding:12px;border-radius:18px;background:rgba(56,211,159,.1);border:1px solid rgba(56,211,159,.26);font-size:14px;line-height:1.45}
+    .exercise-list{display:grid;gap:12px;margin-top:14px}
+    .exercise{padding:14px;border-radius:20px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+    .exercise-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+    .exercise-name{font-size:18px;font-weight:800;letter-spacing:-.02em}
+    .exercise-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+    .pill{padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--line);font-size:11px;color:var(--muted)}
+    .exercise a{color:#cde4ff;text-decoration:none;font-weight:700}
+    .guide{margin-top:10px;line-height:1.45;font-size:14px}
+    .guide strong{display:block;margin-bottom:4px}
+    .lines{display:grid;gap:8px;margin-top:12px}
+    .line{display:grid;grid-template-columns:68px 66px 1fr 32px;gap:8px;align-items:center}
+    .line.round{grid-template-columns:76px 1fr 1fr 32px}
+    .line .mini-label{font-size:12px;color:var(--muted);font-weight:700}
+    .pref-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .hint{font-size:12px;color:var(--muted);margin-top:8px}
+    .controls{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:12px}
+    .dotnav{display:flex;justify-content:center;gap:6px;margin-top:10px}
+    .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18)}
+    .dot.active{background:var(--green)}
+    .recovery-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .muscle{padding:12px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+    .muscle-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;border:1px solid var(--line);margin-top:10px}
+    .bar > span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--blue))}
+    .bar.warn > span{background:linear-gradient(90deg,var(--gold),#f97316)}
+    .bar.hot > span{background:linear-gradient(90deg,#f97316,var(--red))}
+    .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;font-size:11px;color:var(--muted)}
+    .legend .sw{display:inline-block;width:10px;height:10px;border-radius:999px;margin-right:5px;vertical-align:-1px}
+    .feed{display:grid;gap:10px;max-height:380px;overflow:auto;padding-right:4px}
+    .feed-item{padding:12px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+    .feed-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+    .small{font-size:12px}
+    .timer-fab{position:fixed;right:16px;bottom:84px;z-index:30;padding:14px 16px;border-radius:999px;background:linear-gradient(90deg,var(--purple),var(--blue));color:#fff;box-shadow:var(--shadow)}
+    .timer-panel{position:fixed;inset:auto 10px 12px 10px;z-index:29;border-radius:26px;padding:14px;display:none}
+    .timer-panel.open{display:block}
+    .timer-time{font-size:42px;font-weight:900;letter-spacing:-.04em}
+    .bottom-nav{position:fixed;left:0;right:0;bottom:0;background:rgba(5,13,22,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:40}
+    .bottom-nav-inner{width:min(560px,100%);display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+    .nav-btn{padding:10px 8px;border-radius:14px;text-align:center;color:var(--muted);font-size:12px;font-weight:800;background:transparent;border:1px solid transparent}
+    .nav-btn.active{color:var(--text);background:rgba(255,255,255,.05);border-color:var(--line)}
+    .screen{display:none}
+    .screen.active{display:block}
+    .profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .empty{padding:18px;border-radius:18px;border:1px dashed var(--line);color:var(--muted);text-align:center}
+    @media (max-width:420px){
+      .headline{font-size:27px}.workout-title{font-size:21px}.line{grid-template-columns:58px 54px 1fr 28px}.line.round{grid-template-columns:66px 1fr 1fr 28px}.hero-stats{grid-template-columns:1fr 1fr 1fr}
+    }
+  </style>
 </head>
-
 <body>
+  <div class="app">
+    <section class="hero glass">
+      <div class="toprow">
+        <div>
+          <div class="badge">🏋️ Hybrid Athlete V4</div>
+          <div class="headline">Train like a coach built this.</div>
+          <p class="subheadline muted">Swipe workouts, track real set loading, protect muscle when consistency slips, and use recovery data to steer the next session.</p>
+        </div>
+        <div class="badge"><span id="xpBadge">0 XP</span></div>
+      </div>
+      <div class="hero-stats">
+        <div class="mini"><div class="label">Streak</div><div class="value" id="heroStreak">0</div><div class="muted small">days</div></div>
+        <div class="mini"><div class="label">Completed</div><div class="value" id="heroDone">0</div><div class="muted small">sessions</div></div>
+        <div class="mini"><div class="label">Coach call</div><div class="value" id="heroCoach">Lift</div><div class="muted small">today</div></div>
+      </div>
+    </section>
 
-<header>
-Beau Fit OS
-</header>
+    <div id="screenHome" class="screen active">
+      <section class="section glass">
+        <div class="section-head"><div class="section-title">Generate a session</div><button class="small gold" id="luckyBtn">🎲 Lucky</button></div>
+        <div class="grid2">
+          <div class="field"><label>Mode</label><select id="modeSelect"><option value="strength">Strength</option><option value="cardio">Cardio</option><option value="recovery">Recovery</option><option value="morning">Morning</option></select></div>
+          <div class="field"><label>Duration</label><select id="durationSelect"><option value="15">15 min</option><option value="30">30 min</option><option value="45" selected>45 min</option><option value="60">60 min</option></select></div>
+          <div class="field"><label>Focus</label><select id="focusSelect"><option value="full body">Full body</option><option value="upper body">Upper body</option><option value="lower body">Lower body</option><option value="push + pull">Push + pull</option><option value="chest + back">Chest + back</option><option value="legs + posterior chain">Legs + posterior chain</option><option value="shoulders + arms">Shoulders + arms</option></select></div>
+          <div class="field"><label>Need today</label><select id="needSelect"><option value="auto">Auto coach</option><option value="fresh">Fresh variety</option><option value="benchmark">Big lifts</option><option value="protect">Protect muscle</option></select></div>
+        </div>
+        <div class="btn-row" style="margin-top:10px">
+          <button class="primary" id="generateBtn">Generate 3 workouts</button>
+          <button id="clearActiveBtn">Clear active</button>
+        </div>
+        <div class="hint" id="coachDecision">Coach logic will balance your goal, available time, recent recovery, and skipped days.</div>
+      </section>
 
-<div class="container">
+      <section class="section glass">
+        <div class="section-head"><div class="section-title">Swipe your workout options</div><div class="muted small" id="swipeLabel">Option 1 of 3</div></div>
+        <div id="swipeContainer" class="swipe-wrap">
+          <div id="swipeTrack" class="swipe-track"></div>
+        </div>
+        <div class="controls">
+          <div class="btn-row"><button class="small" id="prevWorkout">← Prev</button><button class="small" id="nextWorkout">Next →</button></div>
+          <div class="btn-row"><button class="small secondary" id="acceptBtn">Accept this workout</button></div>
+        </div>
+        <div id="dotnav" class="dotnav"></div>
+      </section>
 
-<div class="section">
+      <section class="section glass">
+        <div class="section-head"><div class="section-title">Muscle recovery tracker</div><div class="muted small">Higher % = more recovered</div></div>
+        <div id="recoveryGrid" class="recovery-grid"></div>
+        <div class="legend"><span><span class="sw" style="background:linear-gradient(90deg,#f97316,var(--red))"></span>worked recently</span><span><span class="sw" style="background:linear-gradient(90deg,var(--gold),#f97316)"></span>rebuilding</span><span><span class="sw" style="background:linear-gradient(90deg,var(--green),var(--blue))"></span>ready to push</span></div>
+      </section>
+    </div>
 
-<label>Workout Goal</label>
+    <div id="screenActive" class="screen">
+      <section class="section glass">
+        <div class="section-head"><div class="section-title">Active workout</div><button class="small" id="completeWorkoutBtn">Mark workout done</button></div>
+        <div id="activeWrap"></div>
+      </section>
+    </div>
 
-<select id="goal">
-<option value="strength">Strength</option>
-<option value="cardio">Cardio</option>
-<option value="recovery">Recovery</option>
-<option value="morning">Morning</option>
-</select>
+    <div id="screenHistory" class="screen">
+      <section class="section glass">
+        <div class="section-head"><div class="section-title">Workout history</div><select id="historyGrouping"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></div>
+        <div id="historyFeed" class="feed"></div>
+      </section>
+    </div>
 
-</div>
+    <div id="screenProfile" class="screen">
+      <section class="section glass">
+        <div class="section-head"><div class="section-title">Profile & baselines</div><button class="small" id="saveProfileBtn">Save</button></div>
+        <div class="profile-grid">
+          <div class="field"><label>Age</label><input id="ageInput" type="number"></div>
+          <div class="field"><label>Bodyweight</label><input id="bwInput" type="number"></div>
+          <div class="field"><label>Goal weight</label><input id="goalWeightInput" type="number"></div>
+          <div class="field"><label>Bench 1RM</label><input id="benchInput" type="number"></div>
+          <div class="field"><label>Squat 1RM</label><input id="squatInput" type="number"></div>
+          <div class="field"><label>Deadlift 1RM</label><input id="deadliftInput" type="number"></div>
+        </div>
+        <div class="hint">These drive progression suggestions. Weight loss and body fat estimates are intentionally not shown here.</div>
+      </section>
+    </div>
+  </div>
 
-<div class="section">
+  <button class="timer-fab" id="timerFab">⏱ Timer</button>
+  <section class="timer-panel glass" id="timerPanel">
+    <div class="section-head"><div class="section-title">Rest timer</div><button class="small" id="closeTimerBtn">Close</button></div>
+    <div class="timer-time" id="timerTime">00:00</div>
+    <div class="muted" id="timerContext">No timer running</div>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="small" data-timer="30">30s</button>
+      <button class="small" data-timer="45">45s</button>
+      <button class="small" data-timer="60">60s</button>
+      <button class="small" data-timer="90">90s</button>
+      <button class="small" data-timer="120">2 min</button>
+    </div>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="primary small" id="pauseTimerBtn">Pause</button>
+      <button class="small" id="resetTimerBtn">Reset</button>
+    </div>
+  </section>
 
-<label>Workout Duration</label>
-
-<select id="duration">
-<option value="15">15 minutes</option>
-<option value="30">30 minutes</option>
-<option value="45">45 minutes</option>
-<option value="60">60 minutes</option>
-</select>
-
-</div>
-
-<div class="section">
-
-<button onclick="generateWorkout()">Generate Workout</button>
-
-</div>
-
-<div class="section">
-
-<h3>Workout Options</h3>
-
-<div class="swipe" id="workoutCards"></div>
-
-</div>
-
-<div class="section">
-
-<h3>Muscle Recovery</h3>
-
-<div class="muscle">
-
-<div>Chest</div>
-<div>Back</div>
-<div>Legs</div>
-<div>Shoulders</div>
-<div>Glutes</div>
-<div>Core</div>
-<div>Arms</div>
-<div>Cardio</div>
-
-</div>
-
-</div>
-
-<div class="section">
-
-<h3>Rest Timer</h3>
-
-<div class="timer" id="timer">00:00</div>
-
-<button class="secondary" onclick="startTimer(60)">Start 60s</button>
-<button class="secondary" onclick="startTimer(120)">Start 2m</button>
-
-</div>
-
-</div>
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <button class="nav-btn active" data-screen="Home">Home</button>
+      <button class="nav-btn" data-screen="Active">Active</button>
+      <button class="nav-btn" data-screen="History">History</button>
+      <button class="nav-btn" data-screen="Profile">Profile</button>
+    </div>
+  </nav>
 
 <script>
+const STORAGE_KEY = 'beau-fit-os-v4';
+const defaults = {
+  profile:{age:37, bodyweight:230, goalWeight:200, bench1RM:240, squat1RM:400, deadlift1RM:365},
+  prefs:{},
+  stats:{xp:0, streak:0, lastCompletedDate:null},
+  logs:[],
+  activeWorkout:null,
+  candidates:[],
+  historyGrouping:'week'
+};
 
-const exercises = {
+const EXERCISES = [
+  // Strength
+  {id:'back_squat',name:'Back Squat',mode:'strength',focus:['lower body','full body','legs + posterior chain'],patterns:['squat','compound'],muscles:['quads','glutes','hamstrings','core'],lift:'squat',reps:[8,6,5,4],source:'MuscleWiki',url:'https://musclewiki.com/exercise/barbell-squat',setup:['Bar sits across upper back.','Brace before you unrack.'],movement:['Sit down between the hips with the chest organized.','Drive through midfoot to stand.'],cues:['Stay tight through the trunk.','Keep knees and toes working together.']},
+  {id:'front_squat',name:'Front Squat',mode:'strength',focus:['lower body','full body','legs + posterior chain'],patterns:['squat','compound'],muscles:['quads','upper back','core'],lift:'squat',reps:[6,5,4,4],source:'MuscleWiki',url:'https://musclewiki.com/exercise/barbell-front-squat-olympic',setup:['Bar sits high on shoulders.','Elbows stay high.'],movement:['Descend with a tall torso.','Stand straight up without elbows dropping.'],cues:['Brace hard before each rep.','Let quads and upper back work together.']},
+  {id:'bench',name:'Barbell Bench Press',mode:'strength',focus:['upper body','full body','push + pull','chest + back'],patterns:['push','compound'],muscles:['chest','triceps','shoulders'],lift:'bench',reps:[8,6,5,4],source:'ExRx',url:'https://exrx.net/WeightExercises/PectoralSternal/BBBenchPress',setup:['Feet planted and shoulder blades pulled tight.','Grip slightly wider than shoulder width.'],movement:['Lower to the mid to lower chest with elbows about 45 degrees.','Press back up while staying tight on the bench.'],cues:['Wrists stacked over forearms.','Leg drive stays steady.']},
+  {id:'paused_bench',name:'Paused Bench Press',mode:'strength',focus:['upper body','push + pull','chest + back'],patterns:['push','compound'],muscles:['chest','triceps'],lift:'bench',reps:[6,5,4,4],source:'ExRx',url:'https://exrx.net/WeightExercises/PectoralSternal/BBBenchPress',setup:['Set up like a normal bench.','Stay extra tight on the chest touch.'],movement:['Pause for one full count on the chest.','Drive the bar straight back up.'],cues:['Do not sink into the shoulders.','Win the pause with tension.']},
+  {id:'incline_bench',name:'Incline Bench Press',mode:'strength',focus:['upper body','chest + back','shoulders + arms'],patterns:['push','compound'],muscles:['upper chest','shoulders','triceps'],lift:'bench',reps:[10,8,6,6],source:'ExRx',url:'https://exrx.net/WeightExercises/PectoralClavicular/BBInclineBenchPress',setup:['Use a low incline.','Keep shoulders packed.'],movement:['Lower to the upper chest under control.','Press up without flaring hard.'],cues:['Ribs stay down.','Smooth bar path.']},
+  {id:'pendlay',name:'Pendlay Row',mode:'strength',focus:['upper body','full body','push + pull','chest + back'],patterns:['pull','compound'],muscles:['lats','upper back','rear delts'],lift:'row',reps:[8,8,6,6],source:'ExRx',url:'https://exrx.net/WeightExercises/BackGeneral/BBBentOverRow',setup:['Hinge to a flat back.','Bar starts on the floor each rep.'],movement:['Row explosively to the lower chest or upper abs.','Reset fully before the next rep.'],cues:['Do not turn it into a shrug.','Torso stays stable.']},
+  {id:'bent_row',name:'Bent-Over Row',mode:'strength',focus:['upper body','full body','push + pull','chest + back'],patterns:['pull','compound'],muscles:['lats','mid back','biceps'],lift:'row',reps:[10,8,8,6],source:'ExRx',url:'https://exrx.net/WeightExercises/BackGeneral/BBBentOverRow',setup:['Brace with a soft knee bend.','Hinge until torso is stable.'],movement:['Row toward the lower ribs.','Lower with control.'],cues:['Bar stays close.','Do not bounce the torso.']},
+  {id:'pullup',name:'Pull-Up',mode:'strength',focus:['upper body','full body','push + pull','chest + back'],patterns:['pull','compound'],muscles:['lats','upper back','biceps'],reps:[8,6,6,5],bodyweight:true,source:'ACE',url:'https://www.acefitness.org/resources/everyone/exercise-library/195/pull-up/',setup:['Start from a dead hang.','Brace ribs down.'],movement:['Pull elbows toward your pockets until chin clears the bar.','Lower under control.'],cues:['Full stretch at the bottom.','Keep neck long.']},
+  {id:'dip',name:'Dip',mode:'strength',focus:['upper body','full body','shoulders + arms'],patterns:['push','compound'],muscles:['chest','triceps','front delts'],reps:[10,8,8,6],bodyweight:true,source:'ACE',url:'https://www.acefitness.org/resources/everyone/exercise-library/280/dip/',setup:['Shoulders stay pulled down and back.','Slight forward lean is fine.'],movement:['Lower until shoulders are just below elbows if comfortable.','Press back up to lockout.'],cues:['Do not dump forward into the shoulders.','Stay in control.']},
+  {id:'rdl',name:'Romanian Deadlift',mode:'strength',focus:['lower body','full body','legs + posterior chain'],patterns:['hinge','compound'],muscles:['hamstrings','glutes','lower back'],lift:'deadlift',reps:[10,8,8,6],source:'ACE',url:'https://www.acefitness.org/resources/everyone/exercise-library/317/romanian-deadlift/',setup:['Soft knees and bar at the thighs.','Brace and keep lats engaged.'],movement:['Push the hips back while bar tracks close to legs.','Stand by driving hips through.'],cues:['Hamstrings should load.','No need to reach the floor.']},
+  {id:'deadlift',name:'Conventional Deadlift',mode:'strength',focus:['lower body','full body','legs + posterior chain'],patterns:['hinge','compound'],muscles:['glutes','hamstrings','back'],lift:'deadlift',reps:[5,4,4,3],source:'ExRx',url:'https://exrx.net/WeightExercises/ErectorSpinae/BBDeadlift',setup:['Bar over midfoot.','Brace before the pull.'],movement:['Push the floor away and keep the bar close.','Lock out with hips and knees together.'],cues:['No overlean at the top.','Create tension before liftoff.']},
+  {id:'hang_clean',name:'Hang Power Clean',mode:'strength',focus:['full body','legs + posterior chain'],patterns:['power','olympic','compound'],muscles:['quads','glutes','traps','core'],lift:'olympic',reps:[4,3,3],source:'Catalyst Athletics',url:'https://www.catalystathletics.com/exercise/145/Hang-Power-Clean/',setup:['Start from above the knees with lats on.','Chest stays over the bar into the dip.'],movement:['Explode vertically, then pull under fast.','Catch on the shoulders with quick elbows.'],cues:['Bar stays close.','Think jump then turnover.']},
+  {id:'hang_snatch',name:'Hang Power Snatch',mode:'strength',focus:['full body'],patterns:['power','olympic','compound'],muscles:['shoulders','posterior chain','legs'],lift:'olympic',reps:[3,3,2],source:'Catalyst Athletics',url:'https://www.catalystathletics.com/exercise/191/Hang-Power-Snatch/',setup:['Wide grip and active shoulders.','Start above the knees with balance through midfoot.'],movement:['Drive through the floor and pull the bar close.','Punch overhead into a strong catch.'],cues:['Fast elbows under the bar.','Do not swing the bar away.']},
+  {id:'split_squat',name:'Bulgarian Split Squat',mode:'strength',focus:['lower body','legs + posterior chain'],patterns:['single-leg'],muscles:['quads','glutes'],reps:[10,8,8],source:'ACE',url:'https://www.acefitness.org/resources/everyone/exercise-library/348/bulgarian-split-squat/',setup:['Back foot on bench and front foot set far enough out.'],movement:['Drop straight down under control.','Drive through the front leg to stand.'],cues:['Slight forward torso lean is okay.','Stay stable at the bottom.']},
+  {id:'curl',name:'Barbell Curl',mode:'strength',focus:['upper body','shoulders + arms'],patterns:['arms'],muscles:['biceps'],reps:[12,10,10],source:'ExRx',url:'https://exrx.net/WeightExercises/Biceps/BBCurl',setup:['Stand tall with elbows near your sides.'],movement:['Curl without swinging the torso.','Lower slowly.'],cues:['Keep shoulders quiet.','Chase tension.']},
+  {id:'skull',name:'Skull Crusher',mode:'strength',focus:['upper body','shoulders + arms'],patterns:['arms'],muscles:['triceps'],reps:[12,10,10],source:'ExRx',url:'https://exrx.net/WeightExercises/Triceps/BBLyingTriExtSC',setup:['Lie on bench with bar above shoulders.'],movement:['Bend at the elbows and lower under control.','Extend back to lockout.'],cues:['Elbows point mostly up.','Avoid turning it into a press.']},
 
-strength:[
-"Back Squat",
-"Bench Press",
-"Romanian Deadlift",
-"Pull Ups",
-"Barbell Row",
-"Front Squat",
-"Hang Power Clean"
-],
+  // Cardio / mixed circuits
+  {id:'thruster',name:'Barbell Thruster',mode:'cardio',focus:['full body','upper body','lower body'],patterns:['conditioning','push','squat'],muscles:['quads','glutes','shoulders','core'],rounds:[4,5],work:40,rest:20,source:'ExRx',url:'https://exrx.net/WeightExercises/ShoulderGeneral/BBThruster',setup:['Use a light load you can cycle smoothly.'],movement:['Front squat into one continuous press.'],cues:['Stay smooth.','Use the legs to drive the bar.']},
+  {id:'barbell_complex',name:'Barbell Conditioning Complex',mode:'cardio',focus:['full body','legs + posterior chain'],patterns:['conditioning','complex'],muscles:['hamstrings','glutes','quads','back','shoulders','core'],complex:[['Romanian Deadlift',6],['Hang Power Clean',5],['Front Squat',5],['Bent-Over Row',6]],rounds:[4,5],work:null,rest:60,source:'Coach built sequence',url:'https://www.catalystathletics.com/',setup:['Choose one light barbell weight for the whole chain.'],movement:['Complete the sequence without dropping the bar if safe.','Rest after the full chain.'],cues:['Use the lightest lift to choose load.','Technique stays ahead of speed.']},
+  {id:'pull_push_circuit',name:'Pull + Push Circuit',mode:'cardio',focus:['upper body','push + pull','chest + back'],patterns:['conditioning'],muscles:['chest','back','triceps','biceps','core'],circuit:['Pull-Up x 5-8','Push-Up x 12-20','Dip x 8-12','Mountain Climbers x 30s'],rounds:[4,5],work:45,rest:20,source:'Coach built sequence',url:'https://www.acefitness.org/',setup:['Move station to station with intent.'],movement:['Keep the rounds crisp and repeatable.'],cues:['Leave one rep in reserve early.','Quality stays high through the final round.']},
+  {id:'lower_engine',name:'Lower Body Engine',mode:'cardio',focus:['lower body','legs + posterior chain'],patterns:['conditioning'],muscles:['quads','glutes','hamstrings','core'],circuit:['Front Squat x 8 light','Reverse Lunge x 10/side','Bodyweight Squat x 20','Plank x 30s'],rounds:[4,5],work:50,rest:20,source:'Coach built sequence',url:'https://www.acefitness.org/',setup:['Use a sustainable pace.'],movement:['Keep moving but never rush form.'],cues:['Breathe between stations.','Keep legs loaded without redlining too soon.']},
+  {id:'pilates_burn',name:'Pilates Burn Flow',mode:'cardio',focus:['full body','upper body'],patterns:['conditioning','pilates'],muscles:['core','glutes','shoulders'],circuit:['Roll-Up x 8','Dead Bug x 10/side','Glute Bridge x 15','Plank Shoulder Tap x 20'],rounds:[3,4],work:40,rest:15,source:'Coach built sequence',url:'https://www.acefitness.org/resources/everyone/blog/6597/the-benefits-of-pilates-exercise/',setup:['Move with control rather than speed only.'],movement:['String the moves together with minimal wasted motion.'],cues:['Exhale on effort.','Stay long through the spine.']},
 
-cardio:[
-"Burpees",
-"Mountain Climbers",
-"Dumbbell Thrusters",
-"Jump Squats",
-"Pushups",
-"Row Intervals"
-],
+  // Recovery
+  {id:'hip_spine_flow',name:'Hip + Spine Recovery Flow',mode:'recovery',focus:['full body','lower body'],patterns:['recovery'],muscles:['hips','spine','glutes','hamstrings'],circuit:['Cat-Cow x 8','World\'s Greatest Stretch x 5/side','Couch Stretch x 30s/side','Deep Squat Hold x 30s'],rounds:[2,3],work:35,rest:15,source:'HSS / ACE style flow',url:'https://www.hss.edu/article_active-recovery.asp',setup:['Move slowly and breathe through each shape.'],movement:['Ease deeper only if the position feels clean.'],cues:['Do not force range.','Let blood flow do the work.']},
+  {id:'upper_reset',name:'Upper Body Reset',mode:'recovery',focus:['upper body','chest + back','shoulders + arms'],patterns:['recovery'],muscles:['chest','lats','thoracic spine','shoulders'],circuit:['Dead Hang x 20-30s','Child\'s Pose Reach x 30s/side','Scap Push-Up x 12','Prone Y-T-W x 6 each'],rounds:[2,3],work:35,rest:15,source:'ACE',url:'https://www.acefitness.org/',setup:['Stay gentle.'],movement:['Use each rep to open range and restore rhythm.'],cues:['The goal is better movement, not fatigue.']},
+  {id:'pump_recover',name:'Pump + Recover',mode:'recovery',focus:['full body'],patterns:['recovery'],muscles:['quads','glutes','chest','back','core'],circuit:['Bodyweight Squat x 15','Push-Up x 10 easy','Bird Dog x 8/side','Glute Bridge x 15'],rounds:[2,3],work:30,rest:15,source:'Coach built sequence',url:'https://www.acefitness.org/',setup:['Treat this like restoration work.'],movement:['Get a light pump without chasing failure.'],cues:['Smooth breathing.','Leave feeling better than you started.']},
 
-recovery:[
-"Cat Cow",
-"Worlds Greatest Stretch",
-"Deep Squat Hold",
-"Glute Bridge",
-"Dead Hang"
-],
+  // Morning
+  {id:'morning_prime',name:'Morning Prime',mode:'morning',focus:['full body'],patterns:['morning'],muscles:['core','glutes','shoulders','hips'],circuit:['Bodyweight Squat x 12','Push-Up x 8','Dead Bug x 8/side','Down Dog to Plank x 6'],rounds:[2,3],work:30,rest:15,source:'Coach built sequence',url:'https://www.acefitness.org/',setup:['Keep the pace steady.'],movement:['Wake the body up without draining it.'],cues:['Finish feeling switched on.']},
+  {id:'sunrise_pilates',name:'Sunrise Pilates',mode:'morning',focus:['full body'],patterns:['morning','pilates'],muscles:['core','hips','glutes'],circuit:['Hundred x 30-40 counts','Glute Bridge x 12','Side Lying Leg Lift x 10/side','Thread the Needle x 6/side'],rounds:[2,3],work:30,rest:15,source:'Coach built sequence',url:'https://www.acefitness.org/resources/everyone/blog/6597/the-benefits-of-pilates-exercise/',setup:['Move with control.'],movement:['Use breath to drive the rhythm.'],cues:['No strain in the neck.']},
 
-morning:[
-"Bodyweight Squat",
-"Pushups",
-"Dead Bug",
-"Plank",
-"Lunges"
-]
+  // Core pool
+  {id:'ab_rollout',name:'Ab Rollout',mode:'core',focus:['full body'],patterns:['core','anti-extension'],muscles:['core','lats'],reps:[10,8,8],source:'ExRx',url:'https://exrx.net/WeightExercises/RectusAbdominis/WtBarRollout',setup:['Ribs down, glutes on.'],movement:['Roll forward until you can still keep the trunk organized.','Pull back without letting the low back arch.'],cues:['Shorten range if needed.','Quality beats distance.']},
+  {id:'hanging_knee',name:'Hanging Knee Raise',mode:'core',focus:['full body'],patterns:['core','flexion'],muscles:['lower abs','hip flexors','grip'],reps:[12,10,10],source:'ACE',url:'https://www.acefitness.org/resources/everyone/exercise-library/278/hanging-knee-raise/',setup:['Start from a stable hang.'],movement:['Curl the pelvis up instead of just swinging legs.'],cues:['Keep reps controlled.','Lower slowly.']},
+  {id:'side_plank',name:'Side Plank',mode:'core',focus:['full body'],patterns:['core','oblique'],reps:[30,30],seconds:true,muscles:['obliques','glute med'],source:'ACE',url:'https://www.acefitness.org/resources/everyone/exercise-library/48/side-plank/',setup:['Stack elbow under shoulder.'],movement:['Lift hips and hold long through the body.'],cues:['Top hip stays forward.']},
+  {id:'dead_bug',name:'Dead Bug',mode:'core',focus:['full body'],patterns:['core','anti-extension'],muscles:['deep core'],reps:[10,10],source:'ACE',url:'https://www.acefitness.org/resources/everyone/exercise-library/343/dead-bug/',setup:['Low back lightly anchored.'],movement:['Opposite arm and leg reach slowly.'],cues:['Exhale on the reach.']},
+  {id:'russian_twist',name:'Russian Twist',mode:'core',focus:['full body'],patterns:['core','rotation'],muscles:['obliques'],reps:[16,16],source:'ACE',url:'https://www.acefitness.org/resources/everyone/exercise-library/144/russian-twist/',setup:['Sit tall and brace lightly.'],movement:['Rotate through the trunk with control.'],cues:['Do not just fling the arms.']}
+];
 
+let state = loadState();
+let swipeIndex = 0;
+let timer = {remaining:0, interval:null, running:false, label:'No timer running'};
+
+function loadState(){
+  try { return {...defaults, ...JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'), profile:{...defaults.profile, ...(JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')?.profile || {})}, stats:{...defaults.stats, ...(JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')?.stats || {})}}; }
+  catch { return structuredClone(defaults); }
+}
+function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function todayKey(d=new Date()){ return new Date(d).toISOString().slice(0,10); }
+function daysSince(dateStr){ if(!dateStr) return 99; const a = new Date(todayKey()); const b = new Date(dateStr); return Math.floor((a-b)/(1000*60*60*24)); }
+function round5(n){ return Math.max(5, Math.round(n/5)*5); }
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
+function rand(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+function getRecentLogs(days=10){ return state.logs.filter(l => daysSince(l.date) <= days); }
+function lastExerciseLog(exId){ return [...state.logs].sort((a,b)=>b.date.localeCompare(a.date)).find(log => log.exercises?.some(e => e.id===exId)); }
+function exercisePreference(ex){ const pref = state.prefs[ex.id]; return pref==='like' ? 10 : pref==='hate' ? -25 : 0; }
+function recentUsePenalty(exId){ const d = daysSince(lastExerciseLog(exId)?.date); return d <= 2 ? -18 : d <= 4 ? -8 : Math.min(d,10); }
+
+function getMuscleRecovery(){
+  const muscles = ['chest','back','shoulders','arms','quads','hamstrings','glutes','core'];
+  const recent = getRecentLogs(7);
+  const map = Object.fromEntries(muscles.map(m=>[m, 100]));
+  recent.forEach(log => {
+    const age = Math.max(0, daysSince(log.date));
+    const factor = [35,28,20,14,8,4,2,0][age] ?? 0;
+    (log.muscles || []).forEach(m => { if(map[m] != null) map[m] = Math.max(20, map[m] - factor); });
+  });
+  return map;
 }
 
-function generateWorkout(){
-
-let goal=document.getElementById("goal").value
-let duration=document.getElementById("duration").value
-
-let list=exercises[goal]
-
-let count=Math.max(3,Math.floor(duration/10))
-
-let chosen=[]
-
-while(chosen.length<count){
-
-let ex=list[Math.floor(Math.random()*list.length)]
-
-if(!chosen.includes(ex)) chosen.push(ex)
-
+function coachCall(){
+  const gap = daysSince(state.stats.lastCompletedDate);
+  const rec = getMuscleRecovery();
+  if(gap >= 4) return {mode:'strength', msg:'You have skipped a few days. Prioritize strength today to protect muscle.'};
+  const least = Object.entries(rec).sort((a,b)=>b[1]-a[1])[0]?.[0] || 'upper';
+  if(least === 'quads' || least === 'hamstrings' || least === 'glutes') return {mode:'lower body', msg:'Lower body is ready to push. A leg-based session fits well.'};
+  if(least === 'chest' || least === 'back' || least === 'shoulders' || least === 'arms') return {mode:'upper body', msg:'Upper body is fresher. A push-pull session makes sense.'};
+  return {mode:'full body', msg:'You are fairly balanced. A full body session is the best all-around play.'};
 }
 
-renderWorkout(chosen)
-
+function suggestFocusFromRecovery(){
+  const rec = getMuscleRecovery();
+  const upper = (rec.chest+rec.back+rec.shoulders+rec.arms)/4;
+  const lower = (rec.quads+rec.hamstrings+rec.glutes)/3;
+  if(Math.abs(upper-lower) < 6) return 'full body';
+  return upper > lower ? 'upper body' : 'lower body';
 }
 
-function renderWorkout(list){
-
-let container=document.getElementById("workoutCards")
-
-container.innerHTML=""
-
-let card=document.createElement("div")
-
-card.className="card"
-
-let html="<h3>Workout</h3>"
-
-list.forEach(e=>{
-
-html+=`<div class="exercise">${e}</div>`
-
-})
-
-html+=`<button onclick="acceptWorkout()">Start Workout</button>`
-
-card.innerHTML=html
-
-container.appendChild(card)
-
+function getRecentLogs(mode, duration, limit=8){
+  return (state.logs || []).filter(log => (!mode || log.mode===mode) && (!duration || Number(log.duration)===Number(duration))).slice(0, limit);
 }
 
-function acceptWorkout(){
-
-alert("Workout started")
-
+function completedExerciseCount(log){
+  return (log.exercises || []).filter(ex => (ex.lines || []).some(line => line.done)).length;
 }
 
-function startTimer(seconds){
-
-let timer=document.getElementById("timer")
-
-let remaining=seconds
-
-let interval=setInterval(()=>{
-
-remaining--
-
-let m=Math.floor(remaining/60)
-
-let s=remaining%60
-
-timer.innerText=`${m}:${s.toString().padStart(2,"0")}`
-
-if(remaining<=0) clearInterval(interval)
-
-},1000)
-
+function plannedExerciseCount(log){
+  return (log.exercises || []).length || 0;
 }
 
-if("serviceWorker" in navigator){
-
-navigator.serviceWorker.register("sw.js")
-
+function adaptiveExerciseCount(mode, duration){
+  const table = {
+    strength:{15:3,30:4,45:5,60:6},
+    cardio:{15:4,30:5,45:6,60:7},
+    recovery:{15:4,30:5,45:6,60:7},
+    morning:{15:4,30:5,45:6,60:7}
+  };
+  let base = (table[mode] && table[mode][duration]) || 4;
+  const logs = getRecentLogs(mode, duration, 8);
+  if(logs.length >= 2){
+    const avgPlanned = logs.reduce((s,l)=>s+plannedExerciseCount(l),0) / logs.length;
+    const avgCompleted = logs.reduce((s,l)=>s+completedExerciseCount(l),0) / logs.length;
+    const avgRate = logs.reduce((s,l)=>s+(l.completionRate || 0),0) / logs.length;
+    const ratio = avgPlanned ? (avgCompleted / avgPlanned) : 1;
+    if(ratio >= 0.9 && avgRate >= 85) base += 1;
+    else if(ratio <= 0.72 || avgRate <= 68) base -= 1;
+  }
+  const max = duration === 15 ? 5 : duration === 30 ? 7 : 8;
+  const min = mode === 'strength' ? 3 : 2;
+  return Math.max(min, Math.min(base, max));
 }
 
+function targetRounds(mode, duration){
+  if(mode === 'morning') return duration <= 15 ? 2 : duration <= 30 ? 3 : 4;
+  if(mode === 'recovery') return duration <= 15 ? 2 : duration <= 30 ? 2 : 3;
+  if(mode === 'cardio') return duration <= 15 ? 3 : duration <= 30 ? 4 : 4;
+  return 0;
+}
+
+function chooseSetByDuration(duration){
+  return duration <= 15 ? [8,6,6] : duration <= 30 ? [8,6,5,5] : duration <= 45 ? [8,6,5,4,8] : [8,6,5,4,8,10];
+}
+
+function chooseCore(mode, duration){
+  const pool = shuffle(EXERCISES.filter(e=>e.mode==='core'));
+  if(mode==='strength') return pool.slice(0, duration >= 45 ? 1 : 0);
+  if(mode==='cardio') return pool.slice(0, duration >= 45 ? 1 : 0);
+  if(mode==='recovery') return pool.slice(0, duration >= 45 ? 1 : 0);
+  if(mode==='morning') return pool.slice(0, duration >= 30 ? 1 : 0);
+  return [];
+}
+
+function findEx(id){ return EXERCISES.find(e=>e.id===id); }
+
+function scoreExercise(ex, ctx){
+  let score = 0;
+  if(ex.mode === ctx.mode) score += 40;
+  if(ex.focus.includes(ctx.focus)) score += 26;
+  if(ctx.focus === 'full body' && (ex.focus.includes('full body') || ex.focus.includes('upper body') || ex.focus.includes('lower body'))) score += 12;
+  if(ctx.need === 'benchmark' && ex.lift) score += 16;
+  if(ctx.need === 'fresh' && recentUsePenalty(ex.id) > 5) score += 8;
+  if(ctx.need === 'protect' && ['strength','core'].includes(ex.mode)) score += 10;
+  score += exercisePreference(ex) + recentUsePenalty(ex.id);
+  if(ctx.mode==='strength' && ['compound','power'].some(p=>ex.patterns.includes(p))) score += 10;
+  if(ctx.mode==='cardio' && ex.patterns.includes('conditioning')) score += 12;
+  if(ctx.mode==='recovery' && ex.mode==='recovery') score += 12;
+  if(ctx.focus==='upper body' && ex.focus.includes('lower body') && !ex.focus.includes('full body')) score -= 18;
+  if(ctx.focus==='lower body' && ex.focus.includes('upper body') && !ex.focus.includes('full body')) score -= 18;
+  return score;
+}
+
+function sortByScore(pool, ctx){ return [...pool].sort((a,b)=>scoreExercise(b,ctx)-scoreExercise(a,ctx)); }
+
+function strengthTemplate(duration, focus){
+  if(focus==='upper body') return duration<=30 ? ['push','pull','push'] : ['push','pull','push','pull','arms'];
+  if(focus==='lower body' || focus==='legs + posterior chain') return duration<=30 ? ['squat','hinge','single-leg'] : ['power','squat','push','hinge','single-leg'];
+  if(focus==='push + pull' || focus==='chest + back') return duration<=30 ? ['push','pull','push','pull'] : ['push','pull','push','pull','arms'];
+  if(focus==='shoulders + arms') return duration<=30 ? ['push','arms','pull'] : ['push','pull','arms','push'];
+  return duration<=30 ? ['squat','push','pull','hinge'] : ['power','squat','push','pull','hinge'];
+}
+
+function buildStrengthWorkout(ctx){
+  const pool = EXERCISES.filter(e=>e.mode==='strength');
+  let plan = strengthTemplate(ctx.duration, ctx.focus);
+  const target = adaptiveExerciseCount('strength', ctx.duration) - chooseCore('strength', ctx.duration).length;
+  while(plan.length < target){
+    plan.push(ctx.focus==='upper body' ? (plan.filter(x=>x==='pull').length <= plan.filter(x=>x==='push').length ? 'pull' : 'push') :
+      ctx.focus==='lower body' || ctx.focus==='legs + posterior chain' ? (plan.includes('single-leg') ? 'hinge' : 'single-leg') :
+      ['push','pull','squat','hinge'][plan.length % 4]);
+  }
+  if(plan.length > target) plan = plan.slice(0, target);
+  const selected=[]; const used = new Set();
+  for(const slot of plan){
+    const options = sortByScore(pool.filter(ex => !used.has(ex.id) && (slot==='power' ? ex.patterns.includes('power') : ex.patterns.includes(slot))), ctx);
+    const pick = options[0] || sortByScore(pool.filter(ex=>!used.has(ex.id)), ctx)[0];
+    if(pick){ selected.push(pick); used.add(pick.id); }
+  }
+  if(ctx.focus==='full body'){
+    const hasPush = selected.some(e=>e.patterns.includes('push'));
+    const hasPull = selected.some(e=>e.patterns.includes('pull'));
+    const hasLower = selected.some(e=>e.patterns.includes('squat')||e.patterns.includes('hinge')||e.patterns.includes('single-leg'));
+    if(!hasPush){ const repl = sortByScore(pool.filter(e=>!used.has(e.id)&&e.patterns.includes('push')), ctx)[0]; if(repl) selected.push(repl); }
+    if(!hasPull){ const repl = sortByScore(pool.filter(e=>!used.has(e.id)&&e.patterns.includes('pull')), ctx)[0]; if(repl) selected.push(repl); }
+    if(!hasLower){ const repl = sortByScore(pool.filter(e=>!used.has(e.id)&&(e.patterns.includes('squat')||e.patterns.includes('hinge')||e.patterns.includes('single-leg'))), ctx)[0]; if(repl) selected.unshift(repl); }
+  }
+  const cores = chooseCore('strength', ctx.duration);
+  return finishWorkout({title:getWorkoutTitle(ctx, selected), coach:strengthCoachMessage(ctx, selected), mode:ctx.mode, focus:ctx.focus, duration:ctx.duration, exercises:[...alternateFlow(selected).slice(0, target), ...cores].map(ex => toExerciseEntry(ex, ctx.mode, ctx.duration))});
+}
+
+function alternateFlow(arr){
+  const upper=[], lower=[], other=[];
+  arr.forEach(ex=>{
+    const lowerish = ex.patterns.includes('squat')||ex.patterns.includes('hinge')||ex.patterns.includes('single-leg')||ex.patterns.includes('power');
+    const upperish = ex.patterns.includes('push')||ex.patterns.includes('pull')||ex.patterns.includes('arms');
+    if(lowerish && !upperish) lower.push(ex); else if(upperish && !lowerish) upper.push(ex); else other.push(ex);
+  });
+  const out=[]; let last='';
+  while(lower.length || upper.length || other.length){
+    if(last!=='lower' && lower.length) { out.push(lower.shift()); last='lower'; continue; }
+    if(last!=='upper' && upper.length) { out.push(upper.shift()); last='upper'; continue; }
+    if(other.length) { out.push(other.shift()); last='other'; continue; }
+    if(lower.length) { out.push(lower.shift()); last='lower'; continue; }
+    if(upper.length) { out.push(upper.shift()); last='upper'; }
+  }
+  return out;
+}
+
+function buildCardioWorkout(ctx){
+  const pool = sortByScore(EXERCISES.filter(e=>e.mode==='cardio'), ctx);
+  const target = adaptiveExerciseCount('cardio', ctx.duration) - chooseCore('cardio', ctx.duration).length;
+  const selected=[]; const used=new Set();
+  for(const ex of pool){
+    if(used.has(ex.id)) continue;
+    if(ctx.focus==='upper body' && !(ex.focus.includes('upper body') || ex.focus.includes('full body'))) continue;
+    if(ctx.focus==='lower body' && !(ex.focus.includes('lower body') || ex.focus.includes('legs + posterior chain') || ex.focus.includes('full body'))) continue;
+    selected.push(ex); used.add(ex.id);
+    if(selected.length === target) break;
+  }
+  const cores = chooseCore('cardio', ctx.duration);
+  const entries = [...alternateFlow(selected), ...cores].slice(0, target + cores.length).map(ex => toExerciseEntry(ex, 'cardio', ctx.duration));
+  return finishWorkout({title:getWorkoutTitle(ctx, selected), coach:cardioCoachMessage(ctx, selected), mode:ctx.mode, focus:ctx.focus, duration:ctx.duration, exercises:entries});
+}
+
+function buildRecoveryWorkout(ctx){
+  const pool = sortByScore(EXERCISES.filter(e=>e.mode==='recovery' || e.mode==='morning'), ctx);
+  const target = adaptiveExerciseCount('recovery', ctx.duration) - chooseCore('recovery', ctx.duration).length;
+  const selected = pool.slice(0, target);
+  const cores = chooseCore('recovery', ctx.duration);
+  return finishWorkout({title:getWorkoutTitle(ctx, selected), coach:'Light movement, deep breathing, and clean positions. The goal is to finish more open and more ready for tomorrow.', mode:ctx.mode, focus:ctx.focus, duration:ctx.duration, exercises:[...selected, ...cores].map(ex => toExerciseEntry(ex, 'recovery', ctx.duration))});
+}
+
+function buildMorningWorkout(ctx){
+  const pool = sortByScore(EXERCISES.filter(e=>e.mode==='morning' || e.mode==='recovery'), ctx);
+  const target = adaptiveExerciseCount('morning', ctx.duration) - chooseCore('morning', ctx.duration).length;
+  const selected = pool.slice(0, target);
+  const cores = chooseCore('morning', ctx.duration);
+  return finishWorkout({title:getWorkoutTitle(ctx, selected), coach:'This is a wake-up session, not a beatdown. You should feel more switched on when you finish.', mode:ctx.mode, focus:ctx.focus, duration:ctx.duration, exercises:[...selected, ...cores].map(ex => toExerciseEntry(ex, 'morning', ctx.duration))});
+}
+
+function getWorkoutTitle(ctx, selected){
+  const map = {strength:'Hybrid Strength',cardio:'Mixed Circuit',recovery:'Recovery Flow',morning:'Morning Prime'};
+  const suffix = ctx.focus==='full body' ? 'Full Body' : ctx.focus.replace(/\b\w/g,m=>m.toUpperCase());
+  return `${map[ctx.mode]} · ${suffix}`;
+}
+function strengthCoachMessage(ctx, selected){
+  const first = selected[0]?.name || 'big lift';
+  return `Lead with ${first}, alternate stress across the session, and leave 1 to 2 hard reps in reserve on early working sets. Today is about quality strength with enough volume to grow.`;
+}
+function cardioCoachMessage(ctx, selected){
+  return `This session runs in rounds, not sets. Keep the pace honest but sustainable, and make the final round look as clean as the first.`;
+}
+
+function estimateWeights(ex){
+  if(ex.bodyweight) return ex.reps.map((r,i)=>({label:`Set ${i+1}`, target:r + (ex.seconds?'s':''), weight:'BW', done:false}));
+  const prior = lastExerciseLog(ex.id)?.exercises?.find(e=>e.id===ex.id)?.lines;
+  if(prior?.length){
+    const success = prior.filter(l=>l.done).length / prior.length;
+    return prior.map((line,i)=>{
+      const n = parseFloat(line.weight) || 0;
+      const bump = success >= .8 ? (i === prior.length-1 ? 1.025 : 1.01) : success < .5 ? .97 : 1;
+      return {label:`Set ${i+1}`, target:ex.reps[i] ?? ex.reps.at(-1), weight:n ? round5(n*bump) : suggestFrom1RM(ex, ex.reps[i] ?? ex.reps.at(-1)), done:false};
+    });
+  }
+  return ex.reps.map((r,i)=>({label:`Set ${i+1}`, target:r + (ex.seconds?'s':''), weight:suggestFrom1RM(ex,r,i), done:false}));
+}
+function suggestFrom1RM(ex,reps,index=0){
+  const p = state.profile;
+  const one = ex.lift==='bench' ? p.bench1RM : ex.lift==='squat' ? p.squat1RM : ex.lift==='deadlift' ? p.deadlift1RM : ex.lift==='row' ? Math.round(p.bench1RM*.8) : ex.lift==='olympic' ? Math.round(p.squat1RM*.45) : 95;
+  const pct = reps>=10?.62:reps===8?.68:reps===6?.74:reps===5?.78:reps===4?.82:reps===3?.86:.7;
+  const base = round5(one*pct);
+  return Math.max(45, base - Math.max(0,(index===0?20:0)));
+}
+function toExerciseEntry(ex, mode, duration=currentDuration()){
+  const entry = {...ex};
+  if(mode==='strength'){
+    entry.reps = chooseSetByDuration(duration).slice(0, Math.max(3, Math.min(5, duration<=15 ? 3 : duration<=30 ? 4 : 5)));
+    entry.lines = estimateWeights(entry);
+  }
+  if(mode==='cardio' || mode==='recovery' || mode==='morning'){
+    const rounds = Array.isArray(ex.rounds) ? Math.max(ex.rounds[0], Math.min(targetRounds(mode, duration), ex.rounds[1] || ex.rounds[0])) : targetRounds(mode, duration);
+    entry.lines = Array.from({length: rounds}, (_,i)=>({label:`Round ${i+1}`, target: ex.complex ? 'Full sequence' : `${ex.work || 30}s work / ${ex.rest || 15}s rest`, weight: ex.complex ? chooseComplexLoad(ex) : (mode==='recovery' ? 'Easy pace / mobility' : 'Bodyweight / light load'), done:false}));
+  }
+  return entry;
+}
+function chooseComplexLoad(ex){
+  const p = state.profile;
+  return `${round5(Math.min(p.bench1RM*.4, p.squat1RM*.25))} lbs suggested`;
+}
+function finishWorkout(workout){
+  const muscles = [...new Set(workout.exercises.flatMap(e => mapMuscles(e.muscles || [])))];
+  return {...workout, createdAt:new Date().toISOString(), muscles};
+}
+function mapMuscles(muscles){
+  const out=[];
+  muscles.forEach(m=>{
+    const x = m.toLowerCase();
+    if(['chest'].includes(x)) out.push('chest');
+    if(['upper back','lats','mid back','back','rear delts','biceps'].includes(x)) out.push('back');
+    if(['shoulders','front delts','traps'].includes(x)) out.push('shoulders');
+    if(['biceps','triceps','forearms'].includes(x)) out.push('arms');
+    if(['quads'].includes(x)) out.push('quads');
+    if(['hamstrings'].includes(x)) out.push('hamstrings');
+    if(['glutes','glute med'].includes(x)) out.push('glutes');
+    if(['core','lower abs','obliques','deep core','hip flexors'].includes(x)) out.push('core');
+  });
+  return out.length ? out : ['core'];
+}
+
+function generateCandidates(overrides={}){
+  const mode = overrides.mode || document.getElementById('modeSelect').value;
+  const duration = Number(overrides.duration || document.getElementById('durationSelect').value);
+  const focus = overrides.focus || document.getElementById('focusSelect').value;
+  const need = overrides.need || document.getElementById('needSelect').value;
+  const ctx = {mode, duration, focus, need};
+  const candidates = [];
+  for(let i=0;i<3;i++){
+    const tweaked = {...ctx};
+    if(i===1 && need==='auto') tweaked.need = 'fresh';
+    if(i===2 && need==='auto') tweaked.need = daysSince(state.stats.lastCompletedDate)>=4 ? 'protect' : 'benchmark';
+    if(mode==='strength') candidates.push(buildStrengthWorkout(tweaked));
+    if(mode==='cardio') candidates.push(buildCardioWorkout(tweaked));
+    if(mode==='recovery') candidates.push(buildRecoveryWorkout(tweaked));
+    if(mode==='morning') candidates.push(buildMorningWorkout(tweaked));
+  }
+  state.candidates = candidates;
+  saveState();
+  swipeIndex = 0;
+  renderCandidates();
+}
+
+function currentDuration(){ return Number(document.getElementById('durationSelect').value || 45); }
+
+function renderCandidates(){
+  const track = document.getElementById('swipeTrack');
+  const dots = document.getElementById('dotnav');
+  const candidates = state.candidates || [];
+  if(!candidates.length){
+    track.innerHTML = '<div class="workout-card"><div class="empty">Generate a few workouts to start swiping.</div></div>';
+    dots.innerHTML = '';
+    updateSwipe();
+    return;
+  }
+  track.innerHTML = candidates.map((workout, idx)=>workoutCardHTML(workout, false)).join('');
+  dots.innerHTML = candidates.map((_,i)=>`<span class="dot ${i===swipeIndex?'active':''}"></span>`).join('');
+  bindWorkoutCardEvents(track, false);
+  updateSwipe();
+}
+
+function renderActive(){
+  const wrap = document.getElementById('activeWrap');
+  if(!state.activeWorkout){ wrap.innerHTML = '<div class="empty">No accepted workout yet. Accept one from Home first.</div>'; return; }
+  wrap.innerHTML = workoutCardHTML(state.activeWorkout, true);
+  bindWorkoutCardEvents(wrap, true);
+}
+
+function workoutCardHTML(workout, active){
+  return `<div class="workout-card">
+    <div class="card-top">
+      <div>
+        <div class="workout-title">${workout.title}</div>
+        <div class="tag-row">
+          <span class="tag">${titleCase(workout.mode)}</span>
+          <span class="tag">${titleCase(workout.focus)}</span>
+          <span class="tag">${workout.duration} min</span>
+        </div>
+      </div>
+      ${active ? '<div class="badge">Accepted</div>' : ''}
+    </div>
+    <div class="coach-note">${workout.coach}</div>
+    <div class="exercise-list">
+      ${workout.exercises.map((ex, exIndex)=>`<div class="exercise">
+        <div class="exercise-head">
+          <div>
+            <div class="exercise-name">${ex.name}</div>
+            <div class="exercise-meta">${(ex.patterns||[]).slice(0,3).map(p=>`<span class="pill">${titleCase(p)}</span>`).join('')}${(ex.muscles||[]).slice(0,2).map(m=>`<span class="pill">${titleCase(m)}</span>`).join('')}</div>
+          </div>
+          <div class="small"><a href="${ex.url}" target="_blank" rel="noopener">${ex.source} ↗</a></div>
+        </div>
+        <div class="guide">
+          <strong>How to do it</strong>
+          ${ex.complex ? `<div><b>Sequence</b>: ${ex.complex.map(item=>`${item[0]} x ${item[1]}`).join(' → ')}</div>` : ''}
+          <div><b>Setup</b>: ${ex.setup.join(' ')}</div>
+          <div><b>Movement</b>: ${ex.movement.join(' ')}</div>
+          <div><b>Key cues</b>: ${ex.cues.join(' ')}</div>
+        </div>
+        <div class="lines">
+          <div class="line ${workout.mode!=='strength' ? 'round' : ''}">
+            <div class="mini-label">${workout.mode==='strength' ? 'Set' : 'Round'}</div>
+            <div class="mini-label">Target</div>
+            <div class="mini-label">${workout.mode==='strength' ? 'Weight' : 'Load / notes'}</div>
+            <div class="mini-label">Done</div>
+          </div>
+          ${ex.lines.map((line,lineIndex)=>`<div class="line ${workout.mode!=='strength' ? 'round' : ''}">
+            <div>${line.label}</div>
+            <div>${line.target}</div>
+            <input data-ex="${exIndex}" data-line="${lineIndex}" data-kind="weight" value="${line.weight ?? ''}" ${active ? '' : 'disabled'}>
+            <input type="checkbox" data-ex="${exIndex}" data-line="${lineIndex}" data-kind="done" ${line.done?'checked':''} ${active ? '' : 'disabled'}>
+          </div>`).join('')}
+        </div>
+        <div class="pref-row">
+          <button class="small pref-btn" data-pref="like" data-exid="${ex.id}">👍 Like</button>
+          <button class="small pref-btn" data-pref="hate" data-exid="${ex.id}">👎 Hate</button>
+          <button class="small pref-btn" data-pref="reset" data-exid="${ex.id}">Reset preference</button>
+          ${(workout.mode==='cardio'||workout.mode==='recovery'||workout.mode==='morning') ? `<button class="small timer-btn" data-seconds="${ex.rest || 20}">Rest ${ex.rest || 20}s</button>` : ''}
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function bindWorkoutCardEvents(root, active){
+  root.querySelectorAll('.pref-btn').forEach(btn => btn.onclick = () => {
+    const id = btn.dataset.exid, pref = btn.dataset.pref;
+    if(pref==='reset') delete state.prefs[id]; else state.prefs[id] = pref;
+    saveState();
+  });
+  root.querySelectorAll('.timer-btn').forEach(btn => btn.onclick = () => startTimer(Number(btn.dataset.seconds), 'Rest timer'));
+  if(active){
+    root.querySelectorAll('input[data-kind="weight"]').forEach(inp => inp.onchange = () => {
+      const ex = Number(inp.dataset.ex), line = Number(inp.dataset.line);
+      state.activeWorkout.exercises[ex].lines[line].weight = inp.value;
+      saveState();
+    });
+    root.querySelectorAll('input[data-kind="done"]').forEach(inp => inp.onchange = () => {
+      const ex = Number(inp.dataset.ex), line = Number(inp.dataset.line);
+      state.activeWorkout.exercises[ex].lines[line].done = inp.checked;
+      saveState();
+    });
+  }
+}
+
+function updateSwipe(){
+  const candidates = state.candidates || [];
+  document.getElementById('swipeTrack').style.transform = `translateX(-${swipeIndex*100}%)`;
+  document.getElementById('swipeLabel').textContent = candidates.length ? `Option ${swipeIndex+1} of ${candidates.length}` : 'No options';
+  document.querySelectorAll('#dotnav .dot').forEach((d,i)=>d.classList.toggle('active', i===swipeIndex));
+}
+function titleCase(str){ return String(str).split(/\s+/).map(s=>s.charAt(0).toUpperCase()+s.slice(1)).join(' '); }
+
+function acceptCurrentWorkout(){
+  const w = state.candidates?.[swipeIndex];
+  if(!w) return;
+  state.activeWorkout = JSON.parse(JSON.stringify(w));
+  saveState();
+  renderActive();
+  switchScreen('Active');
+}
+
+function completeWorkout(){
+  if(!state.activeWorkout) return;
+  const w = JSON.parse(JSON.stringify(state.activeWorkout));
+  const doneLines = w.exercises.flatMap(e=>e.lines).filter(l=>l.done).length;
+  const totalLines = w.exercises.flatMap(e=>e.lines).length || 1;
+  w.completed = true;
+  w.date = todayKey();
+  w.completedExercises = completedExerciseCount(w);
+  w.plannedExercises = plannedExerciseCount(w);
+  w.completionRate = Math.round((doneLines/totalLines)*100);
+  state.logs.unshift(w);
+  state.stats.xp += 80 + Math.round(w.completionRate*.4);
+  updateStreak();
+  state.stats.lastCompletedDate = todayKey();
+  state.activeWorkout = null;
+  saveState();
+  renderAll();
+  alert(`Nice work. Workout logged at ${w.completionRate}% completion. Consistency still counts.`);
+}
+
+function updateStreak(){
+  const last = state.stats.lastCompletedDate;
+  const today = todayKey();
+  if(last===today) return;
+  const gap = daysSince(last);
+  state.stats.streak = gap===1 ? (state.stats.streak || 0) + 1 : 1;
+}
+
+function renderRecovery(){
+  const grid = document.getElementById('recoveryGrid');
+  const rec = getMuscleRecovery();
+  const labels = [['chest','Chest'],['back','Back'],['shoulders','Shoulders'],['arms','Arms'],['quads','Quads'],['hamstrings','Hamstrings'],['glutes','Glutes'],['core','Core']];
+  grid.innerHTML = labels.map(([key,label]) => {
+    const val = Math.round(rec[key]);
+    const cls = val < 45 ? 'hot' : val < 70 ? 'warn' : '';
+    return `<div class="muscle"><div class="muscle-top"><div>${label}</div><div class="small ${val>70?'':'muted'}">${val}%</div></div><div class="bar ${cls}"><span style="width:${val}%"></span></div></div>`;
+  }).join('');
+}
+
+function renderHistory(){
+  const feed = document.getElementById('historyFeed');
+  if(!state.logs.length){ feed.innerHTML = '<div class="empty">Your completed workouts will stack here with the newest on top.</div>'; return; }
+  const grouping = state.historyGrouping || 'week';
+  let lastHeader = '';
+  feed.innerHTML = state.logs.map(log => {
+    const date = new Date(log.date+'T12:00:00');
+    let header = '';
+    if(grouping==='year') header = String(date.getFullYear());
+    if(grouping==='month') header = date.toLocaleString(undefined,{month:'long',year:'numeric'});
+    if(grouping==='week') {
+      const start = new Date(date); start.setDate(date.getDate()-date.getDay());
+      header = `Week of ${start.toLocaleDateString(undefined,{month:'short',day:'numeric'})}`;
+    }
+    const chunk = header !== lastHeader ? `<div class="muted small" style="margin-top:8px">${header}</div>` : '';
+    lastHeader = header;
+    return `${chunk}<div class="feed-item"><div class="feed-top"><div><div style="font-weight:800">${log.title}</div><div class="muted small">${new Date(log.date+'T12:00:00').toLocaleDateString()} · ${titleCase(log.mode)} · ${log.duration} min</div></div><div class="badge">${log.completionRate || 0}%</div></div><div class="small" style="margin-top:8px">${log.exercises.map(e=>e.name).join(' • ')}</div></div>`;
+  }).join('');
+}
+
+function populateProfile(){
+  const p = state.profile;
+  ageInput.value = p.age; bwInput.value = p.bodyweight; goalWeightInput.value = p.goalWeight; benchInput.value = p.bench1RM; squatInput.value = p.squat1RM; deadliftInput.value = p.deadlift1RM;
+}
+function saveProfile(){
+  state.profile = {age:+ageInput.value||37, bodyweight:+bwInput.value||230, goalWeight:+goalWeightInput.value||200, bench1RM:+benchInput.value||240, squat1RM:+squatInput.value||400, deadlift1RM:+deadliftInput.value||365};
+  saveState();
+  renderHero();
+}
+
+function renderHero(){
+  heroStreak.textContent = state.stats.streak || 0;
+  heroDone.textContent = state.logs.length;
+  xpBadge.textContent = `${state.stats.xp || 0} XP`;
+  const call = coachCall();
+  heroCoach.textContent = call.mode === 'upper body' ? 'Upper' : call.mode === 'lower body' ? 'Lower' : call.mode === 'full body' ? 'Blend' : 'Lift';
+  coachDecision.textContent = call.msg;
+}
+
+function switchScreen(name){
+  document.querySelectorAll('.screen').forEach(el => el.classList.toggle('active', el.id===`screen${name}`));
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.screen===name));
+}
+
+function luckyWorkout(){
+  const call = coachCall();
+  let mode = document.getElementById('modeSelect').value;
+  if(daysSince(state.stats.lastCompletedDate) >= 4) mode = 'strength';
+  else {
+    const mix = ['strength','cardio','recovery','morning'];
+    mode = call.msg.includes('protect muscle') ? 'strength' : rand(mix.filter(m => m!==mode || Math.random()>.4));
+  }
+  const focus = mode==='strength' ? suggestFocusFromRecovery() : 'full body';
+  document.getElementById('modeSelect').value = mode;
+  document.getElementById('focusSelect').value = focus;
+  document.getElementById('needSelect').value = 'auto';
+  generateCandidates({mode, focus});
+}
+
+function startTimer(seconds, label='Rest timer'){
+  clearInterval(timer.interval);
+  timer.remaining = seconds;
+  timer.label = label;
+  timer.running = true;
+  timerContext.textContent = label;
+  timerPanel.classList.add('open');
+  tickTimer();
+  timer.interval = setInterval(() => { if(timer.running){ timer.remaining--; tickTimer(); if(timer.remaining<=0){ clearInterval(timer.interval); timer.running=false; timerContext.textContent='Time. Move.'; if(navigator.vibrate) navigator.vibrate([180,80,180]); } } }, 1000);
+}
+function tickTimer(){ const m = String(Math.max(0,Math.floor(timer.remaining/60))).padStart(2,'0'); const s = String(Math.max(0,timer.remaining%60)).padStart(2,'0'); timerTime.textContent = `${m}:${s}`; }
+
+function renderAll(){ renderHero(); renderCandidates(); renderActive(); renderRecovery(); renderHistory(); populateProfile(); }
+
+// Events
+document.querySelectorAll('.nav-btn').forEach(btn => btn.onclick = ()=>switchScreen(btn.dataset.screen));
+generateBtn.onclick = ()=>generateCandidates();
+luckyBtn.onclick = ()=>luckyWorkout();
+acceptBtn.onclick = ()=>acceptCurrentWorkout();
+prevWorkout.onclick = ()=>{ if(!state.candidates?.length) return; swipeIndex = (swipeIndex - 1 + state.candidates.length) % state.candidates.length; updateSwipe(); };
+nextWorkout.onclick = ()=>{ if(!state.candidates?.length) return; swipeIndex = (swipeIndex + 1) % state.candidates.length; updateSwipe(); };
+clearActiveBtn.onclick = ()=>{ state.activeWorkout = null; saveState(); renderActive(); };
+completeWorkoutBtn.onclick = ()=>completeWorkout();
+historyGrouping.onchange = e=>{ state.historyGrouping = e.target.value; saveState(); renderHistory(); };
+saveProfileBtn.onclick = ()=>saveProfile();
+timerFab.onclick = ()=>timerPanel.classList.toggle('open');
+closeTimerBtn.onclick = ()=>timerPanel.classList.remove('open');
+pauseTimerBtn.onclick = ()=>{ timer.running = !timer.running; pauseTimerBtn.textContent = timer.running ? 'Pause' : 'Resume'; };
+resetTimerBtn.onclick = ()=>{ clearInterval(timer.interval); timer.remaining = 0; timer.running = false; timerContext.textContent = 'No timer running'; tickTimer(); pauseTimerBtn.textContent='Pause'; };
+document.querySelectorAll('[data-timer]').forEach(btn => btn.onclick = ()=>startTimer(Number(btn.dataset.timer), 'Custom rest timer'));
+
+// Swipe touch
+let startX = 0, dx = 0;
+swipeContainer.addEventListener('touchstart', e => { startX = e.touches[0].clientX; dx = 0; }, {passive:true});
+swipeContainer.addEventListener('touchmove', e => { dx = e.touches[0].clientX - startX; }, {passive:true});
+swipeContainer.addEventListener('touchend', () => {
+  if(Math.abs(dx) < 40 || !(state.candidates?.length)) return;
+  if(dx < 0) swipeIndex = Math.min(state.candidates.length-1, swipeIndex + 1);
+  else swipeIndex = Math.max(0, swipeIndex - 1);
+  updateSwipe();
+});
+
+renderAll();
+if(!state.candidates?.length) generateCandidates();
 </script>
-
 </body>
 </html>
