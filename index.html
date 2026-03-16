@@ -24,19 +24,19 @@ body{background:radial-gradient(ellipse 120% 60% at 50% -10%,rgba(79,159,255,.12
 
 /* Typography */
 .barlow{font-family:'Barlow Condensed',sans-serif}
-h1,h2{font-family:'Barlow Condensed',sans-serif;letter-spacing:-.01em}
+h1,h2{font-family:'Barlow Condensed',sans-serif;letter-spacing:.02em}
 
 /* Hero */
 .hero{border-radius:28px;padding:18px;position:relative;overflow:hidden;margin-bottom:14px}
 .hero::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(79,159,255,.15),transparent 65%);top:-140px;right:-80px;pointer-events:none}
 .hero::after{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(45,220,143,.12),transparent 65%);bottom:-100px;left:-40px;pointer-events:none}
 .hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.hero-title{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;line-height:1;letter-spacing:-.02em;margin-top:6px}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:700;line-height:1.05;letter-spacing:.03em;margin-top:6px}
 .hero-sub{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.4;max-width:300px}
-.xp-badge{padding:8px 14px;border-radius:999px;background:linear-gradient(90deg,rgba(139,111,255,.25),rgba(79,159,255,.2));border:1px solid rgba(139,111,255,.4);font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;white-space:nowrap}
+.xp-badge{padding:8px 14px;border-radius:999px;background:linear-gradient(90deg,rgba(139,111,255,.25),rgba(79,159,255,.2));border:1px solid rgba(139,111,255,.4);font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;white-space:nowrap}
 .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
 .stat-box{padding:12px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line);text-align:center}
-.stat-val{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;line-height:1}
+.stat-val{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:700;line-height:1}
 .stat-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
 .coach-banner{margin-top:12px;padding:11px 14px;border-radius:14px;background:rgba(45,220,143,.08);border:1px solid rgba(45,220,143,.2);font-size:13px;line-height:1.4;color:rgba(200,255,230,.9)}
 .coach-banner strong{color:var(--green)}
@@ -47,7 +47,7 @@ h1,h2{font-family:'Barlow Condensed',sans-serif;letter-spacing:-.01em}
 /* Sections */
 .section{border-radius:var(--r);padding:14px;margin-bottom:14px}
 .section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
-.section-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:.01em}
+.section-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:600;letter-spacing:.04em}
 
 /* Form */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -84,7 +84,7 @@ button.xs{padding:6px 9px;font-size:11px;border-radius:9px}
 .workout-card{min-width:100%;padding:4px}
 .card-inner{border-radius:var(--r);padding:16px;background:rgba(255,255,255,.03);border:1px solid var(--line)}
 .card-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.card-title{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:-.01em}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:700;letter-spacing:.02em}
 .tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .coach-note{margin-top:12px;padding:12px 14px;border-radius:var(--r2);background:rgba(45,220,143,.08);border-left:3px solid var(--green);font-size:13px;line-height:1.5;color:rgba(200,240,220,.9)}
 .exercise-list{display:grid;gap:14px;margin-top:14px}
@@ -92,7 +92,7 @@ button.xs{padding:6px 9px;font-size:11px;border-radius:9px}
 /* Exercise card */
 .ex-card{border-radius:18px;background:rgba(255,255,255,.03);border:1px solid var(--line);overflow:hidden}
 .ex-card-header{padding:14px 14px 10px}
-.ex-name{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:800;letter-spacing:.01em}
+.ex-name{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:600;letter-spacing:.04em}
 .ex-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
 .ex-img-wrap{position:relative;width:100%;background:rgba(0,0,0,.3);overflow:hidden}
 .ex-img-wrap img{width:100%;display:block;max-height:220px;object-fit:cover;object-position:center}
@@ -165,31 +165,33 @@ button.xs{padding:6px 9px;font-size:11px;border-radius:9px}
 .profile-hint{margin-top:10px;padding:10px 12px;border-radius:12px;background:rgba(79,159,255,.07);border:1px solid rgba(79,159,255,.15);font-size:12px;color:var(--muted);line-height:1.4}
 
 /* Timer FAB */
-.timer-fab{position:fixed;right:14px;bottom:80px;z-index:30;padding:12px 15px;border-radius:999px;background:linear-gradient(90deg,var(--purple),var(--blue));font-weight:800;font-size:13px;box-shadow:0 8px 24px rgba(79,159,255,.35);border:none}
-.timer-panel{position:fixed;inset:auto 10px 8px 10px;z-index:29;border-radius:26px;padding:16px;display:none;max-width:520px;margin:0 auto}
+.timer-fab{position:fixed;right:14px;bottom:calc(72px + env(safe-area-inset-bottom));z-index:30;padding:12px 15px;border-radius:999px;background:linear-gradient(90deg,var(--purple),var(--blue));font-weight:800;font-size:13px;box-shadow:0 8px 24px rgba(79,159,255,.35);border:none}
+.timer-panel{position:fixed;inset:auto 10px calc(72px + env(safe-area-inset-bottom)) 10px;z-index:29;border-radius:26px;padding:16px;display:none;max-width:520px;margin:0 auto}
 .timer-panel.open{display:block}
-.timer-time{font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:900;letter-spacing:-.03em}
+.timer-time{font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:700;letter-spacing:-.03em}
 .timer-label{font-size:13px;color:var(--muted);margin-top:2px}
 .timer-presets{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 
 /* Bottom nav */
 .bottom-nav{position:fixed;left:0;right:0;bottom:0;background:rgba(5,12,22,.96);backdrop-filter:blur(16px);border-top:1px solid var(--line);z-index:40}
 .nav-inner{width:min(520px,100%);margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
-.nav-btn{padding:8px 6px;border-radius:12px;text-align:center;color:var(--muted);font-size:11px;font-weight:700;background:transparent;border:1px solid transparent;display:flex;flex-direction:column;align-items:center;gap:3px}
-.nav-btn .nav-icon{font-size:18px;line-height:1}
+.nav-btn{padding:8px 6px;border-radius:12px;text-align:center;color:var(--muted);font-size:11px;font-weight:700;background:transparent;border:1px solid transparent;display:flex;flex-direction:column;align-items:center;gap:4px}
+.nav-btn .nav-icon{display:flex;align-items:center;justify-content:center;width:22px;height:22px;color:var(--muted);transition:color .2s}
+.nav-btn .nav-icon svg{display:block}
 .nav-btn.active{color:var(--text);background:rgba(255,255,255,.05);border-color:var(--line)}
+.nav-btn.active .nav-icon{color:var(--green)}
 
 /* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:50;display:none;align-items:flex-end;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{width:min(520px,100%);background:var(--bg2);border:1px solid var(--line);border-radius:28px 28px 0 0;padding:24px 18px calc(24px + env(safe-area-inset-bottom));max-height:80vh;overflow:auto}
-.modal h2{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900}
+.modal h2{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:700}
 .modal-complete-icon{font-size:56px;text-align:center;margin-bottom:12px}
 .modal-complete-stat{padding:12px;border-radius:14px;background:rgba(45,220,143,.07);border:1px solid rgba(45,220,143,.2);margin-top:8px;text-align:center}
-.modal-complete-stat .big{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;color:var(--green)}
+.modal-complete-stat .big{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:700;color:var(--green)}
 
 /* Gamification */
-.xp-pop{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:900;color:var(--gold);pointer-events:none;z-index:60;animation:xpPop .8s ease forwards;display:none}
+.xp-pop{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:700;color:var(--gold);pointer-events:none;z-index:60;animation:xpPop .8s ease forwards;display:none}
 @keyframes xpPop{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}40%{opacity:1;transform:translate(-50%,-60%) scale(1.1)}100%{opacity:0;transform:translate(-50%,-90%) scale(1)}}
 .quest-list{display:grid;gap:8px}
 .quest-item{padding:12px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--line);display:flex;align-items:center;gap:12px}
@@ -203,7 +205,7 @@ button.xs{padding:6px 9px;font-size:11px;border-radius:9px}
 
 /* Level display */
 .level-row{display:flex;align-items:center;gap:10px;margin-top:10px}
-.level-badge{padding:8px 14px;border-radius:999px;background:linear-gradient(90deg,rgba(139,111,255,.25),rgba(79,159,255,.2));border:1px solid rgba(139,111,255,.4);font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900}
+.level-badge{padding:8px 14px;border-radius:999px;background:linear-gradient(90deg,rgba(139,111,255,.25),rgba(79,159,255,.2));border:1px solid rgba(139,111,255,.4);font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700}
 .xp-bar{flex:1;height:8px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden}
 .xp-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--purple),var(--blue));transition:width .4s}
 
@@ -413,10 +415,10 @@ button.xs{padding:6px 9px;font-size:11px;border-radius:9px}
 
 <nav class="bottom-nav">
   <div class="nav-inner">
-    <button class="nav-btn active" data-screen="Home"><span class="nav-icon">🏠</span>Home</button>
-    <button class="nav-btn" data-screen="Active"><span class="nav-icon">⚡</span>Active</button>
-    <button class="nav-btn" data-screen="History"><span class="nav-icon">📋</span>History</button>
-    <button class="nav-btn" data-screen="Profile"><span class="nav-icon">👤</span>Profile</button>
+    <button class="nav-btn active" data-screen="Home"><span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><polyline points="9,21 9,12 15,12 15,21"/></svg></span>Home</button>
+    <button class="nav-btn" data-screen="Active"><span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5,3 19,12 5,21 5,3"/></svg></span>Active</button>
+    <button class="nav-btn" data-screen="History"><span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></span>History</button>
+    <button class="nav-btn" data-screen="Profile"><span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>Profile</button>
   </div>
 </nav>
 
