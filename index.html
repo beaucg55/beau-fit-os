@@ -137,6 +137,11 @@ button.xs{padding:6px 9px;font-size:11px;border-radius:9px}
 .toast-bar{flex:1;height:7px;border-radius:999px;background:rgba(255,255,255,.1);overflow:hidden}
 .toast-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--blue));transition:width .4s ease}
 .toast-pct{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--green);white-space:nowrap}
+/* Generate button confirmed state */
+#generateBtn{transition:background .3s,color .3s,border-color .3s}
+#generateBtn.confirmed{background:rgba(45,220,143,.12);color:var(--green);border:1px solid rgba(45,220,143,.45);font-weight:800}
+#generateBtn.confirmed #generateBtnText{display:none}
+#generateBtn.confirmed::before{content:'✓  Workouts Generated'}
 .ex-footer{padding:8px 14px 12px;display:flex;gap:7px;flex-wrap:wrap}
 .pref-btn-like.active{background:rgba(45,220,143,.2);border-color:rgba(45,220,143,.5);color:var(--green)}
 .pref-btn-hate.active{background:rgba(255,90,110,.15);border-color:rgba(255,90,110,.4);color:var(--red)}
@@ -304,7 +309,7 @@ input[type=number]{-moz-appearance:textfield;appearance:textfield}
         </div>
       </div>
       <div class="row" style="margin-top:12px;gap:8px">
-        <button class="primary" id="generateBtn" style="flex:1">Generate 3 Workouts</button>
+        <button class="primary" id="generateBtn" style="flex:1"><span id="generateBtnText">Generate 3 Workouts</span></button>
         <button class="sm danger" id="clearActiveBtn">Clear active</button>
       </div>
     </section>
@@ -551,12 +556,40 @@ const EXERCISES = [
    movement:['Lower until shoulders are just below elbows.','Press back to full lockout.'],
    cues:['Do not let shoulders shrug up.','Add weight via belt once bodyweight becomes easy.']},
 
-  {id:'overhead_press',name:'Overhead Press',mode:'strength',focus:['upper body','shoulders + arms','full body'],patterns:['push','compound'],muscles:['shoulders','triceps','upper chest'],lift:'bench',reps:[8,6,6,5],
+  {id:'overhead_press',name:'Overhead Press',mode:'strength',focus:['upper body','shoulders + arms','full body'],patterns:['push','compound','shoulder'],muscles:['shoulders','triceps','upper chest'],lift:'bench',reps:[8,6,6,5],
    images:['Barbell_Shoulder_Press/0.jpg','Barbell_Shoulder_Press/1.jpg'],
    source:'ExRx',url:'https://exrx.net/WeightExercises/DeltoidAnterior/BBMilitaryPress',
    setup:['Bar at upper chest, narrow grip.','Brace core and glutes.'],
    movement:['Press bar straight up, head back slightly as bar passes.','Lock out fully overhead.'],
    cues:['Do not press from a lean-back position.','Full lockout at top to engage traps.']},
+
+  {id:'push_press',name:'Push Press',mode:'strength',focus:['full body','upper body'],patterns:['power','push','shoulder'],muscles:['shoulders','triceps','legs','core'],lift:'bench',reps:[6,5,4],
+   images:['Barbell_Push_Press/0.jpg','Barbell_Push_Press/1.jpg'],
+   source:'ExRx',url:'https://exrx.net/WeightExercises/DeltoidAnterior/BBPushPress',
+   setup:['Bar on shoulders, feet hip-width.','Slight dip — bend knees a few inches.'],
+   movement:['Drive through legs, press bar overhead.','Lock out at top.'],
+   cues:['Use leg drive to push past your strict press sticking point.','Great for athletic power development.']},
+
+  {id:'lateral_raise',name:'Lateral Raise',mode:'strength',focus:['upper body','shoulders + arms'],patterns:['shoulder'],muscles:['shoulders','side delts'],reps:[15,12,12],
+   images:['Dumbbell_Lateral_Raise/0.jpg','Dumbbell_Lateral_Raise/1.jpg'],
+   source:'ACE',url:'https://www.acefitness.org/resources/everyone/exercise-library/56/lateral-raise/',
+   setup:['Stand tall, dumbbells at sides with slight bend in elbows.','Slight forward lean for better delt engagement.'],
+   movement:['Raise arms out to the sides until parallel to floor.','Lower slowly with control.'],
+   cues:['Lead with the elbows, not the hands.','Do not shrug or use momentum.','Slow the eccentric — that\'s where the gains are.']},
+
+  {id:'upright_row',name:'Upright Row',mode:'strength',focus:['upper body','shoulders + arms'],patterns:['pull','shoulder'],muscles:['shoulders','traps','biceps'],lift:'row',reps:[12,10,10],
+   images:['Barbell_Upright_Row/0.jpg','Barbell_Upright_Row/1.jpg'],
+   source:'ExRx',url:'https://exrx.net/WeightExercises/DeltoidLateral/BBUprightRow',
+   setup:['Overhand grip slightly narrower than shoulder width.','Bar hangs at hip height.'],
+   movement:['Pull bar straight up, elbows flare out and rise above the bar.','Lower with control.'],
+   cues:['Keep bar close to the body.','Stop when elbows reach shoulder height.','Great for trap and lateral delt thickness.']},
+
+  {id:'rear_delt_row',name:'Rear Delt Row',mode:'strength',focus:['upper body','shoulders + arms','chest + back'],patterns:['pull','shoulder'],muscles:['rear delts','upper back','rhomboids'],lift:'row',reps:[15,12,12],
+   images:['Barbell_Bent_Over_Row/0.jpg'],
+   source:'ACE',url:'https://www.acefitness.org/resources/everyone/exercise-library/141/cable-face-pull/',
+   setup:['Hinge forward to ~60°, elbows wide.','Lighter weight — this is isolation work.'],
+   movement:['Row with elbows flared wide, not tucked.','Squeeze rear delts at the top.'],
+   cues:['Wide elbow path targets rear delts.','Narrow elbows turns this into a lat row — keep them wide.']},
 
   // ── STRENGTH: PULL PATTERN ─────────────────
   {id:'pullup',name:'Pull-Up',mode:'strength',focus:['upper body','full body','push + pull','chest + back'],patterns:['pull','compound'],muscles:['lats','upper back','biceps'],reps:[8,6,6,5],bodyweight:true,
@@ -594,7 +627,7 @@ const EXERCISES = [
    movement:['Row to chest, elbows tucked to sides.','Squeeze mid-back at top.'],
    cues:['Allows heavier loading than dumbbell rows.','Great for back thickness.']},
 
-  {id:'face_pull',name:'Face Pull',mode:'strength',focus:['upper body','shoulders + arms'],patterns:['pull'],muscles:['rear delts','upper back','rotator cuff'],reps:[15,15,12],
+  {id:'face_pull',name:'Face Pull',mode:'strength',focus:['upper body','shoulders + arms'],patterns:['pull','shoulder'],muscles:['rear delts','upper back','rotator cuff'],reps:[15,15,12],
    images:['Cable_Face_Pull/0.jpg'],
    source:'ACE',url:'https://www.acefitness.org/resources/everyone/exercise-library/141/cable-face-pull/',
    setup:['Cable or band at head height.','Overhand grip, pull to face level.'],
@@ -615,13 +648,6 @@ const EXERCISES = [
    setup:['Wide snatch grip.','Start above knees, balanced and lat-engaged.'],
    movement:['Drive hard off the floor, bar close.','Punch under into a solid locked-out catch overhead.'],
    cues:['Fast elbows under the bar.','Do not swing or loop the bar forward.']},
-
-  {id:'push_press',name:'Push Press',mode:'strength',focus:['full body','upper body'],patterns:['power','push'],muscles:['shoulders','triceps','legs','core'],lift:'bench',reps:[6,5,4],
-   images:['Barbell_Push_Press/0.jpg','Barbell_Push_Press/1.jpg'],
-   source:'ExRx',url:'https://exrx.net/WeightExercises/DeltoidAnterior/BBPushPress',
-   setup:['Bar on shoulders, feet hip-width.','Slight dip — bend knees a few inches.'],
-   movement:['Drive through legs, press bar overhead.','Lock out at top.'],
-   cues:['Use leg drive to push past your strict press sticking point.','Great for athletic power development.']},
 
   // ── STRENGTH: ARMS ──────────────────────────
   {id:'curl',name:'Barbell Curl',mode:'strength',focus:['upper body','shoulders + arms'],patterns:['arms'],muscles:['biceps'],reps:[12,10,10],
@@ -939,14 +965,15 @@ function suggestWeight(ex,reps,isWarmup=false){
   if(ex.bodyweight) return 'BW';
   const prior=lastUsed(ex.id)?.exercises?.find(e=>e.id===ex.id);
   if(prior?.lines?.length){
-    const workSets=prior.lines.filter(l=>l.isWorking);
-    const lastWork=workSets.length?workSets:prior.lines;
-    const avg=lastWork.map(l=>parseFloat(l.weight)||0).filter(Boolean);
-    if(avg.length){
-      const base=avg[avg.length-1];
-      const rate=prior.lines.filter(l=>l.done).length/prior.lines.length;
-      const bump=rate>=.8?1.025:rate<.5?.975:1;
-      const raw=isWarmup?base*.6*bump:base*bump;
+    const workSets=prior.lines.filter(l=>l.isWorking&&l.done!==false);
+    const allSets=workSets.length?workSets:prior.lines.filter(l=>l.isWorking);
+    const weights=allSets.map(l=>parseFloat(l.weight)||0).filter(Boolean);
+    if(weights.length){
+      // Use peak working weight — not last set (which may be a back-off)
+      const peak=Math.max(...weights);
+      const completedRate=prior.lines.filter(l=>l.done).length/prior.lines.length;
+      const bump=completedRate>=.8?1.025:completedRate<.5?.975:1;
+      const raw=isWarmup?peak*.55:peak*bump;
       return isBarbell(ex)?snapToPlates(raw):r5(raw);
     }
   }
@@ -1046,25 +1073,52 @@ function alternateFlow(arr){
 // BUILD STRENGTH
 // ─────────────────────────────────────────────
 const STRENGTH_TEMPLATES={
-  'full body':['power','squat','push','pull','hinge','single-leg'],
-  'upper body':['push','pull','push','pull','arms'],
+  'full body':['power','squat','push','pull','hinge','shoulder','single-leg'],
+  'upper body':['push','pull','shoulder','push','pull','arms'],
   'lower body':['power','squat','hinge','single-leg','hinge'],
-  'push + pull':['push','pull','push','pull','arms'],
-  'chest + back':['push','pull','push','pull'],
+  'push + pull':['push','pull','shoulder','push','pull','arms'],
+  'chest + back':['push','pull','push','pull','shoulder'],
   'legs + posterior chain':['power','squat','hinge','single-leg','hinge'],
-  'shoulders + arms':['push','pull','arms','push','arms']
+  'shoulders + arms':['shoulder','push','pull','arms','shoulder','arms']
 };
+
+// Track recently used exercise IDs across generations (session memory)
+let recentlyUsedIds=new Set();
+
 function buildStrength(ctx){
   const pool=EXERCISES.filter(e=>e.mode==='strength');
   const count=getTargetCount('strength',ctx.duration);
   const template=(STRENGTH_TEMPLATES[ctx.focus]||STRENGTH_TEMPLATES['full body']).slice(0,count+1);
   const selected=[],used=new Set();
+
   for(const slot of template){
     if(selected.length>=count) break;
-    const options=sorted(pool.filter(e=>!used.has(e.id)&&(slot==='power'?e.patterns.includes('power'):e.patterns.includes(slot))),ctx);
-    const pick=options[0]||sorted(pool.filter(e=>!used.has(e.id)),ctx)[0];
-    if(pick){selected.push(pick);used.add(pick.id);}
+    let candidates;
+    if(slot==='power') candidates=pool.filter(e=>!used.has(e.id)&&e.patterns.includes('power'));
+    else if(slot==='shoulder') candidates=pool.filter(e=>!used.has(e.id)&&(e.patterns.includes('shoulder')||e.muscles?.some(m=>['shoulders','rear delts','front delts','traps'].includes(m))));
+    else candidates=pool.filter(e=>!used.has(e.id)&&e.patterns.includes(slot));
+
+    // Score + inject controlled variety: penalise recently generated exercises
+    const scored=candidates.map(e=>{
+      let s=score(e,ctx);
+      if(recentlyUsedIds.has(e.id)) s-=25; // strong novelty push
+      return {e,s};
+    }).sort((a,b)=>b.s-a.s);
+
+    // Pick from top 3 to add variety rather than always taking rank 1
+    const topN=scored.slice(0,3);
+    const pick=topN.length?topN[Math.floor(Math.random()*Math.min(2,topN.length))].e:null;
+
+    if(pick){
+      selected.push(pick);
+      used.add(pick.id);
+      recentlyUsedIds.add(pick.id);
+    }
   }
+
+  // Trim session memory to last 12 exercises
+  if(recentlyUsedIds.size>12) recentlyUsedIds=new Set([...recentlyUsedIds].slice(-12));
+
   // Full body balance check
   if(ctx.focus==='full body'&&selected.length>=3){
     const hasPush=selected.some(e=>e.patterns.includes('push'));
@@ -1074,6 +1128,7 @@ function buildStrength(ctx){
     if(!hasPull){const r=sorted(pool.filter(e=>!used.has(e.id)&&e.patterns.includes('pull')),ctx)[0];if(r){selected[Math.floor(selected.length/2)]=r;used.add(r.id);}}
     if(!hasLower){const r=sorted(pool.filter(e=>!used.has(e.id)&&e.patterns.some(p=>['squat','hinge'].includes(p))),ctx)[0];if(r){selected[0]=r;used.add(r.id);}}
   }
+
   const cores=pickCores('strength',ctx.duration);
   const ordered=alternateFlow(selected);
   const exercises=[...ordered,...cores].map(e=>({...e,lines:buildSets(e,'strength')}));
@@ -1271,9 +1326,9 @@ function buildLinesHTML(ex,ei,mode,active){
         ${isStrength&&!line.isWorking?'<br><span class="warmup-badge">warm-up</span>':''}
         ${isStrength&&line.isWorking?'<br><span class="working-badge">working</span>':''}
       </div>
-      ${isStrength?`<input class="weight-input" type="text" inputmode="numeric" pattern="[0-9]*" value="${line.actualReps??''}" placeholder="${line.target.replace(' reps','')}" ${active&&!line.done?'':'disabled'} onchange="updateReps(${ei},${li},this.value)"/>`
+      ${isStrength?`<input class="weight-input" type="text" inputmode="numeric" pattern="[0-9]*" value="${line.actualReps??''}" placeholder="${line.target.replace(' reps','')}" ${active&&!line.done?'':'disabled'} onchange="updateReps(${ei},${li},this.value)" onfocus="this.setSelectionRange(this.value.length,this.value.length)"/>`
       :`<div class="line-target">${line.target}</div>`}
-      <input class="weight-input" type="text" inputmode="decimal" pattern="[0-9.]*" value="${line.weight??''}" ${active&&!line.done?'':'disabled'} onchange="updateWeight(${ei},${li},this.value)"/>
+      <input class="weight-input" type="text" inputmode="decimal" pattern="[0-9.]*" value="${line.weight??''}" ${active&&!line.done?'':'disabled'} onchange="updateWeight(${ei},${li},this.value)" onfocus="this.setSelectionRange(this.value.length,this.value.length)"/>
       ${active?`<button class="done-btn ${line.done?'checked':''}" id="doneBtn_${ei}_${li}" onclick="toggleDone(${ei},${li},this)" aria-label="Mark set complete">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,3.5" stroke="#021a0f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>`:`<div style="width:32px"></div>`}
@@ -1646,8 +1701,21 @@ function renderAll(){renderHero();renderCandidates();renderActive();renderRecove
 // EVENT WIRING
 // ─────────────────────────────────────────────
 document.querySelectorAll('.nav-btn').forEach(btn=>btn.onclick=()=>switchScreen(btn.dataset.screen));
-document.getElementById('generateBtn').onclick=()=>generateCandidates();
-document.getElementById('luckyBtn').onclick=()=>luckyWorkout();
+document.getElementById('generateBtn').onclick=()=>{
+  generateCandidates();
+  document.getElementById('generateBtn').classList.add('confirmed');
+};
+document.getElementById('luckyBtn').onclick=()=>{
+  luckyWorkout();
+  document.getElementById('generateBtn').classList.add('confirmed');
+};
+
+// Reset generate button when any input changes
+['modeSelect','durationSelect','focusSelect','needSelect'].forEach(id=>{
+  document.getElementById(id).addEventListener('change',()=>{
+    document.getElementById('generateBtn').classList.remove('confirmed');
+  });
+});
 document.getElementById('acceptBtn').onclick=()=>acceptCurrentWorkout();
 document.getElementById('clearActiveBtn').onclick=()=>{state.activeWorkout=null;save();renderActive();showNotif('Active workout cleared.');};
 document.getElementById('completeWorkoutBtn').onclick=()=>completeWorkout();
